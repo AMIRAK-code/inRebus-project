@@ -1,0 +1,492 @@
+/* ============================================================
+   inRebus Career AI Assistant — Floating Widget
+   Scoped to #ir-assistant, supports [data-theme="light/dark"]
+   ============================================================ */
+
+#ir-assistant {
+    /* Dark defaults */
+    --ir-primary:      #f16421;
+    --ir-primary-dk:   #d4500f;
+    --ir-primary-glow: rgba(241,100,33,0.3);
+    --ir-primary-sub:  rgba(241,100,33,0.12);
+
+    --ir-bg:           #18181b;
+    --ir-bg-head:      #111113;
+    --ir-bg-bubble:    #27272a;
+    --ir-border:       rgba(255,255,255,0.08);
+    --ir-border-input: rgba(255,255,255,0.12);
+
+    --ir-text:         #fafafa;
+    --ir-text-sub:     #a1a1aa;
+    --ir-text-muted:   #52525b;
+
+    --ir-user-bg:      #f16421;
+    --ir-user-text:    #fff;
+    --ir-ai-bg:        #27272a;
+    --ir-ai-text:      #e4e4e7;
+    --ir-ai-border:    rgba(255,255,255,0.06);
+
+    --ir-shadow:       0 20px 60px rgba(0,0,0,0.55), 0 4px 16px rgba(0,0,0,0.4);
+    --ir-radius:       18px;
+
+    position: fixed !important;
+    bottom: 24px !important;
+    right: 24px !important;
+    z-index: 9999 !important;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Light theme overrides */
+[data-theme="light"] #ir-assistant {
+    --ir-bg:           #ffffff;
+    --ir-bg-head:      #f16421;
+    --ir-bg-bubble:    #f1f5f9;
+    --ir-border:       rgba(0,0,0,0.08);
+    --ir-border-input: rgba(0,0,0,0.1);
+
+    --ir-text:         #0f172a;
+    --ir-text-sub:     rgba(255,255,255,0.85);
+    --ir-text-muted:   #94a3b8;
+
+    --ir-ai-bg:        #f1f5f9;
+    --ir-ai-text:      #1e293b;
+    --ir-ai-border:    rgba(0,0,0,0.06);
+
+    --ir-shadow:       0 20px 60px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.08);
+}
+
+/* ── Launcher button ─────────────────────────────────── */
+#ir-launcher {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ir-primary), var(--ir-primary-dk));
+    border: 2px solid rgba(255,255,255,0.18);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 28px var(--ir-primary-glow), 0 4px 12px rgba(0,0,0,0.3);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.3s ease,
+                opacity 0.25s ease;
+    position: relative;
+}
+
+#ir-launcher:hover {
+    transform: scale(1.1) translateY(-3px);
+    box-shadow: 0 14px 40px var(--ir-primary-glow), 0 6px 18px rgba(0,0,0,0.35);
+}
+
+#ir-launcher.ir-hidden {
+    transform: scale(0) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Pulsing ring around launcher */
+#ir-launcher::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid var(--ir-primary);
+    animation: ir-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes ir-pulse {
+    0%   { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.7); opacity: 0; }
+}
+
+.ir-launcher-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    pointer-events: none;
+}
+
+.ir-launcher-icon {
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ir-launcher-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke: white;
+}
+
+.ir-launcher-label {
+    font-size: 8px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* ── Chat window ─────────────────────────────────────── */
+#ir-chat-window {
+    position: absolute;
+    bottom: 66px;
+    right: 0;
+    width: 360px;
+    height: 520px;
+    max-height: 82vh;
+    background: var(--ir-bg);
+    border: 1px solid var(--ir-border);
+    border-radius: var(--ir-radius);
+    box-shadow: var(--ir-shadow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform-origin: bottom right;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.3s ease,
+                visibility 0.3s ease;
+}
+
+#ir-chat-window.ir-hidden {
+    transform: scale(0.88) translateY(24px);
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+/* ── Header ──────────────────────────────────────────── */
+.ir-header {
+    background: var(--ir-bg-head);
+    border-bottom: 1px solid var(--ir-border);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.ir-header-logo {
+    width: 36px;
+    height: 36px;
+    background: #f16421;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: -0.3px;
+}
+
+/* In dark mode header, the orange square logo has slight contrast */
+[data-theme="dark"] .ir-header-logo {
+    box-shadow: 0 0 12px rgba(241,100,33,0.4);
+}
+
+/* In light mode: header IS already orange, so use a white logo */
+[data-theme="light"] .ir-header-logo {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.ir-header-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.ir-header-name {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--ir-text);
+    letter-spacing: -0.01em;
+}
+
+[data-theme="light"] .ir-header-name { color: #fff; }
+
+.ir-header-status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.6875rem;
+    color: var(--ir-text-sub);
+    margin-top: 1px;
+}
+
+.ir-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #22c55e;
+    flex-shrink: 0;
+    animation: ir-blink 2s ease-in-out infinite;
+}
+
+@keyframes ir-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.35; }
+}
+
+.ir-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--ir-text-sub);
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+[data-theme="light"] .ir-close { color: rgba(255,255,255,0.7); }
+
+.ir-close:hover {
+    background: rgba(255,255,255,0.1);
+    color: var(--ir-text);
+}
+
+[data-theme="light"] .ir-close:hover { color: #fff; }
+
+.ir-close svg { width: 15px; height: 15px; }
+
+/* ── Messages area ───────────────────────────────────── */
+#ir-messages {
+    flex: 1;
+    padding: 14px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.08) transparent;
+}
+
+[data-theme="light"] #ir-messages {
+    scrollbar-color: rgba(0,0,0,0.1) transparent;
+}
+
+#ir-messages::-webkit-scrollbar { width: 3px; }
+#ir-messages::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+}
+
+[data-theme="light"] #ir-messages::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.1);
+}
+
+/* ── Bubbles ─────────────────────────────────────────── */
+.ir-bubble {
+    max-width: 84%;
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 0.875rem;
+    line-height: 1.55;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    animation: ir-pop 0.25s ease forwards;
+}
+
+@keyframes ir-pop {
+    from { opacity: 0; transform: translateY(10px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.ir-bubble.user {
+    align-self: flex-end;
+    background: var(--ir-user-bg);
+    color: var(--ir-user-text);
+    border-bottom-right-radius: 4px;
+    box-shadow: 0 3px 12px var(--ir-primary-glow);
+}
+
+.ir-bubble.assistant {
+    align-self: flex-start;
+    background: var(--ir-ai-bg);
+    color: var(--ir-ai-text);
+    border-bottom-left-radius: 4px;
+    border: 1px solid var(--ir-ai-border);
+}
+
+/* ── Typing indicator ────────────────────────────────── */
+.ir-typing {
+    align-self: flex-start;
+    background: var(--ir-ai-bg);
+    border: 1px solid var(--ir-ai-border);
+    border-radius: 14px;
+    border-bottom-left-radius: 4px;
+    padding: 12px 16px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    animation: ir-pop 0.25s ease forwards;
+}
+
+.ir-typing span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--ir-primary);
+    animation: ir-dots 1.2s infinite ease-in-out both;
+}
+
+.ir-typing span:nth-child(2) { animation-delay: 0.12s; }
+.ir-typing span:nth-child(3) { animation-delay: 0.24s; }
+
+@keyframes ir-dots {
+    0%, 80%, 100% { transform: scale(0.5); opacity: 0.4; }
+    40%            { transform: scale(1);   opacity: 1; }
+}
+
+/* ── Quick chips ─────────────────────────────────────── */
+.ir-chips-wrap {
+    padding: 10px 14px 2px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+
+.ir-chip {
+    background: var(--ir-primary-sub);
+    border: 1px solid rgba(241,100,33,0.3);
+    color: var(--ir-primary);
+    border-radius: 100px;
+    padding: 5px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.ir-chip:hover {
+    background: var(--ir-primary);
+    border-color: var(--ir-primary);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px var(--ir-primary-glow);
+}
+
+/* ── Input area ──────────────────────────────────────── */
+.ir-input-area {
+    padding: 10px 12px 12px;
+    border-top: 1px solid var(--ir-border);
+    flex-shrink: 0;
+}
+
+.ir-input-row {
+    display: flex;
+    align-items: flex-end;
+    background: var(--ir-bg-bubble);
+    border: 1px solid var(--ir-border-input);
+    border-radius: 12px;
+    padding: 8px 8px 8px 12px;
+    gap: 8px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+[data-theme="light"] .ir-input-row {
+    background: #f8fafc;
+}
+
+.ir-input-row:focus-within {
+    border-color: rgba(241,100,33,0.5);
+    box-shadow: 0 0 0 3px rgba(241,100,33,0.1);
+}
+
+#ir-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: inherit;
+    font-size: 0.875rem;
+    color: var(--ir-text);
+    line-height: 1.5;
+    min-height: 20px;
+    max-height: 88px;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+#ir-input::placeholder { color: var(--ir-text-muted); }
+
+.ir-send {
+    background: var(--ir-primary);
+    border: none;
+    border-radius: 9px;
+    width: 32px;
+    height: 32px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px var(--ir-primary-glow);
+}
+
+.ir-send:hover {
+    background: var(--ir-primary-dk);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px var(--ir-primary-glow);
+}
+
+.ir-send:active { transform: scale(0.92); }
+.ir-send svg { width: 14px; height: 14px; }
+
+/* ── Suggested action cards ──────────────────────────── */
+.ir-welcome-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.ir-action-card {
+    background: var(--ir-bg-bubble);
+    border: 1px solid var(--ir-border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-family: inherit;
+    color: var(--ir-ai-text);
+    width: 100%;
+}
+
+.ir-action-card:hover {
+    border-color: rgba(241,100,33,0.4);
+    background: var(--ir-primary-sub);
+    transform: translateY(-1px);
+}
+
+.ir-action-card-icon {
+    font-size: 16px;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.ir-action-card-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ir-ai-text);
+    line-height: 1.3;
+}

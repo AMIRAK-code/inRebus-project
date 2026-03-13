@@ -26,6 +26,9 @@ const App = {
             });
         }
 
+        // Theme toggle
+        this.initTheme();
+
         // Enter key on input
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
@@ -34,6 +37,53 @@ const App = {
                     this.handleRoleSubmit();
                 }
             }
+        });
+    },
+
+    // ── SVG icons for theme toggle ──
+    _moonSVG: `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`,
+    _sunSVG:  `<circle cx="12" cy="12" r="5"/>
+               <line x1="12" y1="1" x2="12" y2="3"/>
+               <line x1="12" y1="21" x2="12" y2="23"/>
+               <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+               <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+               <line x1="1" y1="12" x2="3" y2="12"/>
+               <line x1="21" y1="12" x2="23" y2="12"/>
+               <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+               <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`,
+
+    initTheme() {
+        const html      = document.documentElement;
+        const themeBtn  = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeLabel= document.getElementById('theme-label');
+        if (!themeBtn || !themeIcon) return;
+
+        const applyTheme = (mode) => {
+            html.setAttribute('data-theme', mode);
+            localStorage.setItem('inrebus-theme', mode);
+            if (mode === 'dark') {
+                themeIcon.innerHTML = this._moonSVG;
+                themeBtn.title = 'Switch to light mode';
+                if (themeLabel) themeLabel.textContent = 'Dark';
+            } else {
+                themeIcon.innerHTML = this._sunSVG;
+                themeBtn.title = 'Switch to dark mode';
+                if (themeLabel) themeLabel.textContent = 'Light';
+            }
+        };
+
+        // Restore saved preference (default: dark)
+        const saved = localStorage.getItem('inrebus-theme') || 'dark';
+        applyTheme(saved);
+
+        themeBtn.addEventListener('click', () => {
+            const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+            gsap.fromTo(themeBtn,
+                { scale: 0.88 },
+                { scale: 1, duration: 0.35, ease: 'back.out(2)' }
+            );
         });
     },
 

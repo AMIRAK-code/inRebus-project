@@ -39,6 +39,178 @@
     --shadow-glow-strong: 0 0 50px rgba(249, 115, 22, 0.25);
 }
 
+/* ===== LIGHT MODE THEME ===== */
+[data-theme="light"] {
+    --primary: #f16421;
+    --primary-dark: #d4500f;
+    --primary-glow: rgba(241,100,33,0.35);
+    --primary-subtle: rgba(241,100,33,0.1);
+    --accent: #fb923c;
+
+    --bg-base: #f8fafc;
+    --bg-surface: #f1f5f9;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f8fafc;
+    --bg-elevated: #e2e8f0;
+
+    --border: rgba(0,0,0,0.08);
+    --border-hover: rgba(241,100,33,0.5);
+    --border-subtle: rgba(0,0,0,0.04);
+
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --text-orange: #d4500f;
+
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.07);
+    --shadow-md: 0 4px 20px rgba(0,0,0,0.09);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+    --shadow-glow: 0 0 30px rgba(241,100,33,0.1);
+    --shadow-glow-strong: 0 0 50px rgba(241,100,33,0.2);
+}
+
+/* Theme transitions */
+body, .sidebar, .top-header, .content-area,
+.hero-card, .stat-card, .rec-card, .skill-card,
+.search-input, .role-chip, .nav-btn, .user-pill {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Light mode body adjustments */
+[data-theme="light"] body {
+    background: var(--bg-base);
+}
+
+[data-theme="light"] .sidebar {
+    background: rgba(248,250,252,0.92);
+    border-right-color: rgba(0,0,0,0.08);
+}
+
+[data-theme="light"] .top-header {
+    background: rgba(248,250,252,0.9);
+    border-bottom-color: rgba(0,0,0,0.08);
+}
+
+[data-theme="light"] .nav-btn.active {
+    background: rgba(241,100,33,0.1);
+    border-color: rgba(241,100,33,0.2);
+}
+
+[data-theme="light"] .hero-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+    box-shadow: var(--shadow-md);
+}
+
+[data-theme="light"] .search-input {
+    background: #ffffff;
+    border-color: rgba(0,0,0,0.1);
+    color: var(--text-primary);
+}
+
+[data-theme="light"] .search-input::placeholder {
+    color: #94a3b8;
+}
+
+[data-theme="light"] .role-chip {
+    background: #ffffff;
+    border-color: rgba(0,0,0,0.1);
+    color: #475569;
+}
+
+[data-theme="light"] .role-chip:hover,
+[data-theme="light"] .role-chip.selected {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+[data-theme="light"] #particle-canvas {
+    opacity: 0.15;
+}
+
+/* ── Theme toggle pill button ── */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 12px;
+    height: 34px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    flex-shrink: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.theme-toggle:hover {
+    border-color: rgba(241,100,33, 0.5);
+    color: var(--primary);
+    background: var(--primary-subtle);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 12px var(--primary-glow);
+}
+
+.theme-toggle svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+[data-theme="light"] .theme-toggle svg {
+    transform: rotate(360deg);
+}
+
+/* Light mode dashboard card improvements */
+[data-theme="light"] .stat-card {
+    background: #ffffff;
+    border-color: rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+[data-theme="light"] .skill-card {
+    background: #ffffff;
+    border-color: rgba(0,0,0,0.08);
+}
+
+[data-theme="light"] .rec-card {
+    background: #ffffff;
+    border-color: rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+[data-theme="light"] .section-header-row,
+[data-theme="light"] .section-title { color: #0f172a; }
+
+[data-theme="light"] .hero-card-role { color: #0f172a; }
+[data-theme="light"] .hero-card-subtitle { color: #475569; }
+
+[data-theme="light"] .stat-label { color: #475569; }
+[data-theme="light"] .stat-value { color: #0f172a; }
+
+[data-theme="light"] .nav-btn { color: #475569; }
+[data-theme="light"] .nav-btn:hover { color: #0f172a; background: rgba(0,0,0,0.04); }
+
+[data-theme="light"] .nav-btn .nav-icon {
+    background: #e2e8f0;
+}
+
+[data-theme="light"] .nav-section-label { color: #94a3b8; }
+
+[data-theme="light"] .user-name { color: #0f172a; }
+[data-theme="light"] .user-label { color: #64748b; }
+
+[data-theme="light"] .logo-wordmark { color: #0f172a; }
+
+[data-theme="light"] .rec-card-title { color: #0f172a; }
+[data-theme="light"] .rec-card-skill { color: #64748b; }
+
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
