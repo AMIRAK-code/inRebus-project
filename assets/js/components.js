@@ -1,8 +1,6 @@
 const Components = {
 
-    /* ======================================
-       ROLE SELECTION / ONBOARDING VIEW
-    ====================================== */
+    
     RoleSelection: () => `
         <div class="role-selection-wrapper" id="role-selection">
             <div class="hero-badge">
@@ -63,9 +61,7 @@ const Components = {
         </div>
     `,
 
-    /* ======================================
-       DASHBOARD VIEW
-    ====================================== */
+
     Dashboard: () => `
         <div class="max-content" id="dashboard-view" style="max-width:900px;margin:0 auto;">
 
@@ -161,9 +157,7 @@ const Components = {
         </div>
     `,
 
-    /* ======================================
-       RECOMMENDATION CARD
-    ====================================== */
+   
     RecommendationCard: (item, idx) => {
         const images = [
             'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80&auto=format&fit=crop',
@@ -195,9 +189,7 @@ const Components = {
         </div>`;
     },
 
-    /* ======================================
-       HEADER ACTION
-    ====================================== */
+
     HeaderAction: () => `
         <button class="reset-btn" onclick="App.resetSession()" id="reset-btn">
             <i data-lucide="refresh-cw" style="width:12px;height:12px;"></i>
@@ -205,9 +197,7 @@ const Components = {
         </button>
     `,
 
-    /* ======================================
-       LOADING VIEW
-    ====================================== */
+   
     Loading: () => `
         <div class="loading-view" id="loading-view">
             <div class="loader-container">
@@ -235,9 +225,7 @@ const Components = {
         </div>
     `,
 
-    /* ======================================
-       SKELETON
-    ====================================== */
+  
     DashboardSkeleton: () => `
         <div style="max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:1rem;">
             <div class="skeleton" style="height:160px;"></div>

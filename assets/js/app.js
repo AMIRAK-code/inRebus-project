@@ -4,14 +4,11 @@ const App = {
         this.renderSidebar();
         this.showView('roleSelection');
 
-        // Boot animations
         Animations.sidebarEntrance();
 
-        // Logo click → reset to home
         const logoBtn = document.getElementById('logo-btn');
         if (logoBtn) logoBtn.addEventListener('click', () => this.resetSession());
 
-        // Hamburger sidebar toggle
         const toggle = document.getElementById('sidebar-toggle');
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebar-overlay');
@@ -26,10 +23,8 @@ const App = {
             });
         }
 
-        // Theme toggle
         this.initTheme();
 
-        // Enter key on input
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 const input = document.getElementById('role-input');
@@ -40,7 +35,7 @@ const App = {
         });
     },
 
-    // ── SVG icons for theme toggle ──
+    
     _moonSVG: `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`,
     _sunSVG:  `<circle cx="12" cy="12" r="5"/>
                <line x1="12" y1="1" x2="12" y2="3"/>
@@ -73,7 +68,6 @@ const App = {
             }
         };
 
-        // Restore saved preference (default: dark)
         const saved = localStorage.getItem('inrebus-theme') || 'dark';
         applyTheme(saved);
 
@@ -124,9 +118,9 @@ const App = {
                 headerAction.innerHTML = '';
                 container.innerHTML = Components.RoleSelection();
                 lucide.createIcons();
-                // GSAP entrance
+
                 requestAnimationFrame(() => Animations.roleSelectionEntrance());
-                // Magnetic button
+
                 requestAnimationFrame(() => {
                     Animations.magneticButton(document.getElementById('analyze-btn'));
                 });
@@ -181,7 +175,7 @@ const App = {
         if (input) {
             input.value = role;
             input.focus();
-            // Pulse animation on input
+
             gsap.fromTo(input, { borderColor: 'var(--primary)', boxShadow: '0 0 0 3px rgba(249,115,22,0.25)' }, {
                 borderColor: '', boxShadow: '', duration: 1, ease: 'power2.out'
             });
@@ -191,7 +185,7 @@ const App = {
     async handleRoleSubmit() {
         const input = document.getElementById('role-input');
         if (!input || !input.value.trim()) {
-            // Shake animation
+
             gsap.fromTo(input,
                 { x: -6 }, { x: 0, duration: 0.4, ease: 'elastic.out(1, 0.3)',
                   clearProps: 'x', keyframes: [{ x: -6 }, { x: 6 }, { x: -4 }, { x: 4 }, { x: 0 }]
@@ -217,7 +211,7 @@ const App = {
             STATE.recommendations = data.recommendations || [];
             STATE.matchPercentage = data.match_percentage || 0;
         } catch (e) {
-            // Realistic mock data for demo
+
             await new Promise(r => setTimeout(r, 2400));
             const role = roleValue.toLowerCase();
 

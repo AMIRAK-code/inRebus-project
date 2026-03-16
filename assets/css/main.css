@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
-/* ===== DESIGN SYSTEM ===== */
+
 :root {
     --primary: #f97316;
     --primary-dark: #ea580c;
@@ -39,7 +39,7 @@
     --shadow-glow-strong: 0 0 50px rgba(249, 115, 22, 0.25);
 }
 
-/* ===== LIGHT MODE THEME ===== */
+
 [data-theme="light"] {
     --primary: #f16421;
     --primary-dark: #d4500f;
@@ -69,14 +69,14 @@
     --shadow-glow-strong: 0 0 50px rgba(241,100,33,0.2);
 }
 
-/* Theme transitions */
+
 body, .sidebar, .top-header, .content-area,
 .hero-card, .stat-card, .rec-card, .skill-card,
 .search-input, .role-chip, .nav-btn, .user-pill {
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Light mode body adjustments */
+
 [data-theme="light"] body {
     background: var(--bg-base);
 }
