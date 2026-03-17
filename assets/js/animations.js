@@ -109,7 +109,7 @@
 
     // Hover effects
     document.addEventListener('mouseover', (e) => {
-        const el = e.target.closest('button, a, input, .role-chip, .rec-card, .nav-btn, .user-pill');
+        const el = e.target.closest('button, a, input, .role-chip, .rec-card, .nav-btn, .user-pill, .upload-zone, .option-card');
         if (el) {
             gsap.to(cursor, { scale: 2.5, background: 'transparent', border: '1px solid var(--primary)', duration: 0.2 });
             gsap.to(follower, { scale: 1.8, opacity: 0.3, duration: 0.3 });
@@ -117,7 +117,7 @@
     });
 
     document.addEventListener('mouseout', (e) => {
-        const el = e.target.closest('button, a, input, .role-chip, .rec-card, .nav-btn, .user-pill');
+        const el = e.target.closest('button, a, input, .role-chip, .rec-card, .nav-btn, .user-pill, .upload-zone, .option-card');
         if (el) {
             gsap.to(cursor, { scale: 1, background: 'var(--primary)', border: 'none', duration: 0.2 });
             gsap.to(follower, { scale: 1, opacity: 1, duration: 0.3 });

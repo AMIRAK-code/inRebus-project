@@ -126,6 +126,22 @@ const App = {
                 });
                 break;
 
+            case 'cvUpload':
+                headerTitle.textContent = 'Upload CV';
+                headerAction.innerHTML = '';
+                container.innerHTML = Components.CVUpload();
+                lucide.createIcons();
+                requestAnimationFrame(() => Animations.roleSelectionEntrance()); // Reuse animation
+                break;
+
+            case 'options':
+                headerTitle.textContent = 'Career Path Options';
+                headerAction.innerHTML = Components.HeaderAction();
+                container.innerHTML = Components.CareerOptions();
+                lucide.createIcons();
+                requestAnimationFrame(() => Animations.dashboardEntrance()); // Reuse animation
+                break;
+
             case 'dashboard':
                 headerTitle.textContent = STATE.targetRole || 'Dashboard';
                 headerAction.innerHTML = Components.HeaderAction();
@@ -135,11 +151,18 @@ const App = {
                 break;
 
             case 'loading':
+                const type = STATE.uploadedCV ? 'cv' : 'generic';
                 headerTitle.textContent = 'Analyzing…';
                 headerAction.innerHTML = '';
-                container.innerHTML = Components.Loading();
+                container.innerHTML = Components.Loading(type);
                 lucide.createIcons();
                 requestAnimationFrame(() => Animations.animateLoadingSteps());
+                break;
+
+            case 'error':
+                headerTitle.textContent = 'System Error';
+                headerAction.innerHTML = '';
+                // Errors are passed via STATE or arguments, here we'll assume they are handled by a dedicated method
                 break;
 
             default:
@@ -196,58 +219,76 @@ const App = {
 
         const roleValue = input.value.trim();
         STATE.targetRole = roleValue;
+        
+        // Instead of analyzing immediately, move to CV upload for the "DNA" part
+        this.showView('cvUpload');
+    },
+
+    async handleCVUpload(input) {
+        if (!input.files || !input.files[0]) return;
+        
+        const file = input.files[0];
+        STATE.uploadedCV = file.name;
+        
         this.showView('loading');
 
         try {
-            const response = await fetch(CONFIG.API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ target_role: roleValue })
-            });
-            const data = await response.json();
-
-            STATE.skills = data.extracted_skills || [];
-            STATE.gaps = data.skill_gaps || [];
-            STATE.recommendations = data.recommendations || [];
-            STATE.matchPercentage = data.match_percentage || 0;
-        } catch (e) {
-
-            await new Promise(r => setTimeout(r, 2400));
-            const role = roleValue.toLowerCase();
-
-            if (role.includes('data') || role.includes('ai') || role.includes('ml')) {
-                STATE.matchPercentage = 72;
-                STATE.skills = ['Python', 'SQL', 'Data Visualization', 'Statistics', 'Excel'];
-                STATE.gaps = ['Machine Learning', 'TensorFlow', 'Cloud Platforms', 'MLOps'];
-                STATE.recommendations = [
-                    { title: 'Machine Learning Fundamentals', type: 'Course', target_skill: 'Machine Learning' },
-                    { title: 'TensorFlow Developer Certificate', type: 'Certification', target_skill: 'TensorFlow' },
-                    { title: 'AWS for ML Engineers', type: 'Workshop', target_skill: 'Cloud Platforms' },
-                ];
-            } else if (role.includes('design') || role.includes('ux') || role.includes('ui')) {
-                STATE.matchPercentage = 81;
-                STATE.skills = ['Figma', 'User Research', 'Wireframing', 'Design Systems', 'Prototyping'];
-                STATE.gaps = ['Motion Design', 'Accessibility (WCAG)', 'Design Tokens'];
-                STATE.recommendations = [
-                    { title: 'Advanced Motion Design', type: 'VR Experience', target_skill: 'Motion Design' },
-                    { title: 'Accessible Design Principles', type: 'Course', target_skill: 'Accessibility (WCAG)' },
-                    { title: 'Design Systems at Scale', type: 'Workshop', target_skill: 'Design Tokens' },
-                ];
-            } else {
-                STATE.matchPercentage = 68;
-                STATE.skills = ['Electrical Safety', 'Technical Drawing', 'CAD Software', 'Circuit Analysis'];
-                STATE.gaps = ['PLC Programming', 'Robotics Control', 'Industrial IoT', 'Automation Systems'];
-                STATE.recommendations = [
-                    { title: 'PLC Logic 101', type: 'VR Experience', target_skill: 'PLC Programming' },
-                    { title: 'Robotics Fundamentals', type: 'Course', target_skill: 'Robotics Control' },
-                    { title: 'Industrial IoT Bootcamp', type: 'Workshop', target_skill: 'Industrial IoT' },
-                ];
+            // Check connectivity / status before uploading
+            const formData = new FormData();
+            formData.append('file', file);
+            if (STATE.targetRole) {
+                formData.append('target_role', STATE.targetRole);
             }
-        }
 
-        STATE.activeTab = 'dashboard';
-        this.renderSidebar();
-        this.showView('dashboard');
+            const response = await fetch('https://inrebus-backendlms.onrender.com/api/analyze', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            
+            // Map the real backend response to our state
+            // We'll be flexible with field names
+            STATE.matchPercentage = data.match_percentage || data.matchPercentage || data.readiness || 0;
+            STATE.skills = data.skills || [];
+            STATE.gaps = data.gaps || [];
+            STATE.recommendations = data.recommendations || [];
+            STATE.analysisResult = data;
+
+            this.showView('options');
+
+        } catch (error) {
+            console.error('CV Analysis Failed:', error);
+            this.showErrorView(
+                'Connection Failure', 
+                'We couldn\'t connect to the AI engine. Please verify the server is online and try again.'
+            );
+        }
+    },
+
+    showErrorView(title, message) {
+        const container = document.getElementById('main-content');
+        const headerTitle = document.getElementById('header-title');
+        
+        headerTitle.textContent = 'Analysis Failed';
+        container.innerHTML = Components.Error(title, message);
+        lucide.createIcons();
+    },
+
+    handleAnalysisSelection(choice) {
+        if (choice === 'learn') {
+            STATE.activeTab = 'dashboard';
+            this.renderSidebar();
+            this.showView('dashboard');
+        } else if (choice === 'apply') {
+            this.navigateTo('career'); // Use career tab for jobs
+        } else if (choice === 'write') {
+            this.navigateTo('skills'); // Use skills tab for CV writing
+        }
     },
 
     navigateTo(id) {
@@ -273,11 +314,12 @@ const App = {
                 Object.assign(STATE, {
                     targetRole: '', matchPercentage: 0,
                     skills: [], gaps: [], recommendations: [],
-                    activeTab: 'dashboard', isLoading: false
+                    activeTab: 'dashboard', isLoading: false,
+                    uploadedCV: null
                 });
                 STATE.activeTab = 'dashboard';
                 this.renderSidebar();
-                this.showView('roleSelection');
+                this.showView('cvUpload');
                 gsap.to('.main-wrapper', { opacity: 1, duration: 0.4, ease: 'power2.out' });
             }
         });

@@ -6,7 +6,9 @@ const defaultState = {
     gaps: [],
     recommendations: [],
     activeTab: 'dashboard',
-    isLoading: false
+    isLoading: false,
+    uploadedCV: null,
+    analysisResult: null
 };
 
 
