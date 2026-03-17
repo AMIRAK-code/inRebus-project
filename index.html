@@ -2550,7 +2550,8 @@
       activeTab: 'dashboard',
       isLoading: false,
       uploadedCV: null,
-      analysisResult: null
+      analysisResult: null,
+      moodleCourses: []
     };
 
 
@@ -2843,6 +2844,22 @@
                 <div class="grid-3" id="rec-grid">
                     ${STATE.recommendations.map((item, idx) => Components.RecommendationCard(item, idx)).join('')}
                 </div>
+                </div>
+            </div>
+
+            <!-- Available Moodle Courses -->
+            <div id="moodle-courses-section" style="margin-top:2.5rem;">
+                <div class="section-header" style="margin-bottom:1.25rem;">
+                    <div class="section-title">
+                        <div class="section-title-dot" style="background:#f16421;box-shadow:0 0 8px rgba(241,100,33,0.5);"></div>
+                        Available Courses on inRebus Edu
+                    </div>
+                </div>
+                <div class="grid-3" id="moodle-grid">
+                    ${STATE.moodleCourses && STATE.moodleCourses.length > 0
+          ? STATE.moodleCourses.slice(0, 3).map((course, idx) => Components.MoodleCourseCard(course, idx)).join('')
+          : (STATE.moodleCourses === null ? '<div style="color:var(--text-muted);font-size:0.875rem;">Could not load courses.</div>' : '<div style="color:var(--text-muted);font-size:0.875rem;">Loading courses...</div>')}
+                </div>
             </div>
         </div>
     `,
@@ -2878,6 +2895,35 @@
             </div>
         </div>`;
       },
+
+      MoodleCourseCard: (course, idx) => {
+        const images = [
+          'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&q=80&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&q=80&auto=format&fit=crop',
+          'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&q=80&auto=format&fit=crop'
+        ];
+        const img = images[idx % images.length];
+        const courseUrl = `https://www.inrebusdl.it/cim/course/view.php?id=${course.id}`;
+
+        return `
+        <div class="rec-card" onclick="window.open('${courseUrl}', '_blank')" style="cursor:pointer;" id="moodle-card-${idx}">
+            <div class="rec-card-image">
+                <img src="${img}" alt="${course.fullname}" loading="lazy"/>
+                <div class="rec-card-badge">Moodle Course</div>
+            </div>
+            <div class="rec-card-body">
+                <div class="rec-card-title">${course.fullname}</div>
+                <div class="rec-card-skill">${course.shortname || 'Online Course'}</div>
+                <div class="rec-card-footer">
+                    <div class="rec-card-cta">
+                        View Course
+                        <i data-lucide="external-link" style="width:12px;height:12px;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+      },
+
 
 
       HeaderAction: () => `
@@ -3237,6 +3283,9 @@
         const logoBtn = document.getElementById('logo-btn');
         if (logoBtn) logoBtn.addEventListener('click', () => this.resetSession());
 
+        // Fetch Moodle Courses in the background
+        this.fetchMoodleCourses();
+
         const toggle = document.getElementById('sidebar-toggle');
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebar-overlay');
@@ -3261,6 +3310,35 @@
             }
           }
         });
+      },
+
+      async fetchMoodleCourses() {
+        if (STATE.moodleCourses && STATE.moodleCourses.length > 0) return; // Prevent re-fetching if already loaded
+
+        try {
+          const moodleApiUrl = "https://www.inrebusdl.it/cim/webservice/rest/server.php?wstoken=62bc86a9e2339179f55f334a177a9113&wsfunction=core_course_get_courses&moodlewsrestformat=json";
+          const response = await fetch(moodleApiUrl);
+
+          if (!response.ok) throw new Error("Failed to fetch Moodle courses");
+
+          let courses = await response.json();
+          if (Array.isArray(courses)) {
+            // Filter out the Site Home (id 1) and keep 3 random or top courses
+            courses = courses.filter(c => c.id !== 1);
+            STATE.moodleCourses = courses.slice(0, 3);
+
+            // Re-render dashboard if it's the active view to show newly fetched courses
+            if (STATE.activeTab === 'dashboard' && document.getElementById('moodle-grid')) {
+              this.showView('dashboard');
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching courses from Moodle:", error);
+          STATE.moodleCourses = null;
+          if (STATE.activeTab === 'dashboard' && document.getElementById('moodle-grid')) {
+            this.showView('dashboard');
+          }
+        }
       },
 
 
