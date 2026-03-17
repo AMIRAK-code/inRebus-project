@@ -619,7 +619,7 @@
 
     /* ===== CARDS ===== */
     .card {
-      background: var(--bg-card);
+      background: rgba(24, 24, 27, 0.8);
       border: 1px solid var(--border);
       border-radius: var(--radius-xl);
       padding: 1.5rem;
@@ -627,6 +627,8 @@
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .card:hover {
@@ -676,6 +678,37 @@
     .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 0 40px var(--primary-glow), 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%) skewX(-15deg); }
+      100% { transform: translateX(200%) skewX(-15deg); }
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transform: translateX(-100%) skewX(-15deg);
+      animation: shimmer 3s infinite;
+      pointer-events: none;
+    }
+
+    /* ===== DNA SCAN ===== */
+    .scanning-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #f16421;
+      box-shadow: 0 0 20px #f16421;
+      z-index: 10;
+      pointer-events: none;
     }
 
     .btn-primary:hover::before {
@@ -874,7 +907,6 @@
     .stat-card {
       flex: 1;
       min-width: 110px;
-      background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       padding: 1rem;
@@ -884,6 +916,9 @@
       position: relative;
       overflow: hidden;
       transition: all 0.3s ease;
+      background: rgba(24, 24, 27, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .stat-card:hover {
@@ -2828,10 +2863,29 @@
                         </div>
                         <span style="font-size:0.7rem;font-weight:600;color:#fdba74;background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.2);padding:2px 8px;border-radius:100px;">${STATE.gaps.length} gaps</span>
                     </div>
-                    <div style="display:flex;flex-wrap:wrap;gap:0.5rem;">
-                        ${STATE.gaps.map(g =>
-        `<span class="skill-tag orange"><i data-lucide="alert-circle" style="width:11px;height:11px;"></i>${g}</span>`
-      ).join('')}
+                    <div style="display:flex;flex-direction:column;gap:0.75rem;">
+                        ${STATE.gaps.map((g, idx) => {
+                          const isHighImpact = idx < 2;
+                          const fillPercent = isHighImpact ? 90 : 40;
+                          const label = isHighImpact ? 'High Impact' : 'Secondary';
+                          const badge = idx === 0 ? '<span style="background:var(--primary);color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700;margin-left:auto;">Critical</span>' : '';
+                          return `
+                            <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);padding:0.75rem;border-radius:var(--radius-md);width:100%;display:flex;flex-direction:column;gap:0.5rem;">
+                              <div style="display:flex;align-items:center;">
+                                <i data-lucide="alert-circle" style="width:13px;height:13px;color:var(--primary);margin-right:6px;"></i>
+                                <span style="font-size:0.875rem;font-weight:600;color:var(--text-primary);">${g}</span>
+                                ${badge}
+                              </div>
+                              <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.75rem;color:var(--text-muted);">
+                                <span>Gap Impact</span>
+                                <span>${label}</span>
+                              </div>
+                              <div style="width:100%;height:4px;background:#334155;border-radius:2px;overflow:hidden;position:relative;">
+                                <div style="width:${fillPercent}%;height:100%;background:var(--primary);border-radius:2px;"></div>
+                              </div>
+                            </div>
+                          `;
+                        }).join('')}
                     </div>
                 </div>
             </div>
@@ -2881,7 +2935,23 @@
         const durations = ['2h 30m', '4h 15m', '1h 45m', '3h 00m', '5h 20m'];
         const levels = ['Beginner', 'Intermediate', 'Advanced'];
         return `
-        <div class="rec-card" id="rec-card-${idx}">
+        <div class="rec-card" id="rec-card-${idx}" style="position:relative;overflow:hidden;" onclick="
+            if(this.dataset.enrolled) return;
+            this.dataset.enrolled = 'true';
+            const btn = this.querySelector('.rec-card-cta');
+            gsap.to(this, { scale: 1.02, duration: 0.2 });
+            btn.innerHTML = 'Enrolling...';
+            setTimeout(() => {
+                btn.innerHTML = 'In Progress';
+                btn.style.background = '#22c55e';
+                btn.style.color = '#fff';
+                btn.style.borderColor = '#22c55e';
+                const pb = document.createElement('div');
+                pb.style.cssText = 'position:absolute;bottom:0;left:0;height:4px;background:#22c55e;width:0;';
+                this.appendChild(pb);
+                gsap.to(pb, { width: '10%', duration: 0.5, ease: 'power2.out' });
+            }, 800);
+        ">
             <div class="rec-card-image">
                 <img src="${img}" alt="${item.title}" loading="lazy"/>
                 <div class="rec-card-badge">${item.type || 'Course'}</div>
@@ -3561,11 +3631,26 @@
 
         const file = input.files[0];
         STATE.uploadedCV = file.name;
-        
+
         // Only accept PDFs for now to avoid errors, or fallback for others based on your backend
         if (file.type !== 'application/pdf') {
           this.showErrorView('Invalid File', 'Currently, only PDF files are supported for extraction.');
           return;
+        }
+
+        const uploadZone = document.querySelector('.upload-zone');
+        if (uploadZone) {
+          const scanLine = document.createElement('div');
+          scanLine.className = 'scanning-line';
+          uploadZone.appendChild(scanLine);
+
+          await new Promise(resolve => {
+            gsap.fromTo(scanLine, 
+              { y: 0, opacity: 1 }, 
+              { y: uploadZone.offsetHeight, duration: 1, repeat: 1, ease: 'linear', onComplete: resolve }
+            );
+          });
+          scanLine.remove();
         }
 
         this.showView('loading');
@@ -3573,7 +3658,7 @@
         try {
           // Read file as ArrayBuffer
           const arrayBuffer = await file.arrayBuffer();
-          
+
           // Load PDF using PDF.js
           const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
           let extractedText = "";
@@ -3868,7 +3953,10 @@
 
         // Show welcome if fresh session
         if (history.length === 0) {
-          const welcomeMsg = "?? Hi! I'm the **inRebus Career AI** ? your guide to smarter career planning.\n\nI can help you understand:\n? ?? Your skill gaps for any role\n? ?? How to read your readiness score\n? ?? Your personalized learning path\n\nWhat can I help you with today?";
+          let welcomeMsg = "?? Hi! I'm the **inRebus Career AI** ? your guide to smarter career planning.\n\nI can help you understand:\n? ?? Your skill gaps for any role\n? ?? How to read your readiness score\n? ?? Your personalized learning path\n\nWhat can I help you with today?";
+          if (typeof STATE !== 'undefined' && STATE.targetRole) {
+            welcomeMsg = `I see you're aiming for ${STATE.targetRole}. I've identified ${STATE.gaps ? STATE.gaps.length : 0} gaps in your profile. Should we start with the highest impact skill?`;
+          }
           pushHistory('assistant', welcomeMsg);
         }
 
