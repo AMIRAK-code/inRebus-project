@@ -19,6 +19,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
@@ -3557,15 +3561,47 @@
 
         const file = input.files[0];
         STATE.uploadedCV = file.name;
+        
+        // Only accept PDFs for now to avoid errors, or fallback for others based on your backend
+        if (file.type !== 'application/pdf') {
+          this.showErrorView('Invalid File', 'Currently, only PDF files are supported for extraction.');
+          return;
+        }
 
-        // Note: For MVP we pass the file name since we don't have a front-end PDF parser yet.
-        // The backend expects 'cv_text' which we populate with a placeholder including the filename.
-        await this._processAnalysis({
-          target_role: STATE.targetRole || "Mechatronics Technician",
-          mode: "cv",
-          cv_text: "Analysis of " + file.name,
-          answers: []
-        });
+        this.showView('loading');
+
+        try {
+          // Read file as ArrayBuffer
+          const arrayBuffer = await file.arrayBuffer();
+          
+          // Load PDF using PDF.js
+          const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+          let extractedText = "";
+
+          // Iterate through each page to extract text
+          for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const textContent = await page.getTextContent();
+            const pageText = textContent.items.map(item => item.str).join(" ");
+            extractedText += pageText + "\n";
+          }
+
+          if (!extractedText.trim()) {
+            throw new Error("Could not extract any text from the PDF. It might be an image-based PDF.");
+          }
+
+          // Pass the real extracted text to the backend
+          await this._processAnalysis({
+            target_role: STATE.targetRole || "Mechatronics Technician",
+            mode: "cv",
+            cv_text: extractedText,
+            answers: []
+          });
+
+        } catch (error) {
+          console.error('PDF Extraction Error:', error);
+          this.showErrorView('Extraction Failed', error.message || 'Failed to read the PDF file.');
+        }
       },
 
       async _processAnalysis(payload) {
