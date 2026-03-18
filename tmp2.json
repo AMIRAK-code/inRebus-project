@@ -1,0 +1,163 @@
+{
+  "id": 329,
+  "shortname": "LH25 AI PRACTICAL - S1 - LH25",
+  "categoryid": 2,
+  "categorysortorder": 20003,
+  "fullname": "AI Practical - Introduzione a Python per l’IA - Nuova Edizione",
+  "displayname": "AI Practical - Introduzione a Python per l’IA - Nuova Edizione",
+  "idnumber": "",
+  "summary": "<p>Corso pratico di Intelligenza Artificiale adatto a tecnici che vogliono imparare a sviluppare applicazioni <br />bassate su Intelligenza Artificiale sfruttando librerie e framework già esistenti.<br />Il corso è composto da tre moduli che possono essere configurati, a scelta, tenendo conto della<br />propria necessità. I moduli riguardano 1) la programmazione in Python per l’Intelligenza artificiale, 2)<br />l’intelligenza artificiale applicata alla computer vision, e 3) l’intelligenza artificiale per l’analisi dei dati.</p>",
+  "summaryformat": 1,
+  "format": "topics",
+  "showgrades": 1,
+  "newsitems": 5,
+  "startdate": 1763043360,
+  "enddate": 0,
+  "numsections": 0,
+  "maxbytes": 0,
+  "showreports": 0,
+  "visible": 1,
+  "hiddensections": 1,
+  "groupmode": 1,
+  "groupmodeforce": 0,
+  "defaultgroupingid": 0,
+  "timecreated": 1761831491,
+  "timemodified": 1773130972,
+  "enablecompletion": 1,
+  "completionnotify": 0,
+  "lang": "",
+  "forcetheme": "",
+  "courseformatoptions": [
+    {
+      "name": "hiddensections",
+      "value": 1
+    },
+    {
+      "name": "coursedisplay",
+      "value": 0
+    }
+  ],
+  "showactivitydates": false,
+  "showcompletionconditions": true,
+  "customfields": [
+    {
+      "name": "Categoria",
+      "shortname": "categoria",
+      "type": "text",
+      "valueraw": "Corsi Academy",
+      "value": "Corsi Academy"
+    },
+    {
+      "name": "Livello",
+      "shortname": "livello",
+      "type": "text",
+      "valueraw": "Avanzato",
+      "value": "Avanzato"
+    },
+    {
+      "name": "Ore",
+      "shortname": "ore",
+      "type": "number",
+      "valueraw": 8,
+      "value": "8"
+    },
+    {
+      "name": "Prezzo",
+      "shortname": "prezzo",
+      "type": "number",
+      "valueraw": null,
+      "value": null
+    },
+    {
+      "name": "Modalità",
+      "shortname": "modalita",
+      "type": "text",
+      "valueraw": "Mista",
+      "value": "Mista"
+    },
+    {
+      "name": "Programmato",
+      "shortname": "programmato",
+      "type": "checkbox",
+      "valueraw": 0,
+      "value": "No"
+    },
+    {
+      "name": "Macro argomenti",
+      "shortname": "mb2skills",
+      "type": "textarea",
+      "valueraw": "",
+      "value": null
+    },
+    {
+      "name": "Profilo partecipante",
+      "shortname": "profilo",
+      "type": "textarea",
+      "valueraw": "",
+      "value": null
+    },
+    {
+      "name": "Pre-requisiti",
+      "shortname": "mb2requirements",
+      "type": "textarea",
+      "valueraw": "",
+      "value": null
+    },
+    {
+      "name": "Obiettivi",
+      "shortname": "obiettivi",
+      "type": "textarea",
+      "valueraw": "<p>Il corso mira a mettere in pratica i concetti dell’Intelligenza Artificiale dal Machine Learning Classico al <br>Deep Learning al fine che gli studenti siano in grado di realizzare applicazioni sfruttando librerie e <br>framework esistenti.</p>",
+      "value": "<p>Il corso mira a mettere in pratica i concetti dell’Intelligenza Artificiale dal Machine Learning Classico al <br />Deep Learning al fine che gli studenti siano in grado di realizzare applicazioni sfruttando librerie e <br />framework esistenti.</p>"
+    },
+    {
+      "name": "Altro",
+      "shortname": "altro",
+      "type": "textarea",
+      "valueraw": "<p>Durata: 8 ore per modulo. La durata complessiva dipende da quanti moduli si scelgono.<br>Lingua: italiano<br>Sede: CIM4.0, Corso Luigi Settembrini 178, 10135 Torino <br>Numero minimo/massimo di partecipanti: Da concordare</p>",
+      "value": "<p>Durata: 8 ore per modulo. La durata complessiva dipende da quanti moduli si scelgono.<br />Lingua: italiano<br />Sede: CIM4.0, Corso Luigi Settembrini 178, 10135 Torino <br />Numero minimo/massimo di partecipanti: Da concordare</p>"
+    },
+    {
+      "name": "Bottone",
+      "shortname": "mb2link",
+      "type": "text",
+      "valueraw": "https://www.inrebusdl.it/cim/mod/page/view.php?id=19",
+      "value": "https://www.inrebusdl.it/cim/mod/page/view.php?id=19"
+    },
+    {
+      "name": "Learning Outcomes ",
+      "shortname": "learningoutcomes",
+      "type": "textarea",
+      "valueraw": "",
+      "value": null
+    },
+    {
+      "name": "Costo per partecipante",
+      "shortname": "costopartecipante",
+      "type": "number",
+      "valueraw": null,
+      "value": null
+    },
+    {
+      "name": "Max partecipanti",
+      "shortname": "maxpartecipanti",
+      "type": "number",
+      "valueraw": null,
+      "value": null
+    },
+    {
+      "name": "Date Lezioni",
+      "shortname": "datelezioni",
+      "type": "text",
+      "valueraw": "",
+      "value": null
+    },
+    {
+      "name": "Titolo Semplice",
+      "shortname": "titolosemplice",
+      "type": "text",
+      "valueraw": "",
+      "value": null
+    }
+  ]
+}

@@ -1,0 +1,486 @@
+[
+  {
+    "id": 1,
+    "shortname": "CIM4.0",
+    "categoryid": 0,
+    "categorysortorder": 1,
+    "fullname": "CIM4.0 Academy",
+    "displayname": "CIM4.0 Academy",
+    "idnumber": "",
+    "summary": "",
+    "summaryformat": 0,
+    "format": "site",
+    "showgrades": 1,
+    "newsitems": 3,
+    "startdate": 0,
+    "enddate": 0,
+    "numsections": 1,
+    "maxbytes": 0,
+    "showreports": 0,
+    "visible": 1,
+    "groupmode": 0,
+    "groupmodeforce": 0,
+    "defaultgroupingid": 0,
+    "timecreated": 1747637071,
+    "timemodified": 1747637071,
+    "enablecompletion": 0,
+    "completionnotify": 0,
+    "lang": "",
+    "forcetheme": "",
+    "courseformatoptions": [
+      {
+        "name": "numsections",
+        "value": 1
+      }
+    ],
+    "showactivitydates": false,
+    "showcompletionconditions": null,
+    "customfields": [
+      {
+        "name": "Categoria",
+        "shortname": "categoria",
+        "type": "text",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Livello",
+        "shortname": "livello",
+        "type": "text",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Ore",
+        "shortname": "ore",
+        "type": "number",
+        "valueraw": null,
+        "value": null
+      },
+      {
+        "name": "Prezzo",
+        "shortname": "prezzo",
+        "type": "number",
+        "valueraw": null,
+        "value": null
+      },
+      {
+        "name": "Modalità",
+        "shortname": "modalita",
+        "type": "text",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Programmato",
+        "shortname": "programmato",
+        "type": "checkbox",
+        "valueraw": 0,
+        "value": "No"
+      },
+      {
+        "name": "Macro argomenti",
+        "shortname": "mb2skills",
+        "type": "textarea",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Profilo partecipante",
+        "shortname": "profilo",
+        "type": "textarea",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Pre-requisiti",
+        "shortname": "mb2requirements",
+        "type": "textarea",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Obiettivi",
+        "shortname": "obiettivi",
+        "type": "textarea",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Altro",
+        "shortname": "altro",
+        "type": "textarea",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Bottone",
+        "shortname": "mb2link",
+        "type": "text",
+        "valueraw": "https://www.inrebusdl.it/cim/mod/page/view.php?id=19",
+        "value": "https://www.inrebusdl.it/cim/mod/page/view.php?id=19"
+      },
+      {
+        "name": "Learning Outcomes ",
+        "shortname": "learningoutcomes",
+        "type": "textarea",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Costo per partecipante",
+        "shortname": "costopartecipante",
+        "type": "number",
+        "valueraw": null,
+        "value": null
+      },
+      {
+        "name": "Max partecipanti",
+        "shortname": "maxpartecipanti",
+        "type": "number",
+        "valueraw": null,
+        "value": null
+      },
+      {
+        "name": "Date Lezioni",
+        "shortname": "datelezioni",
+        "type": "text",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Titolo Semplice",
+        "shortname": "titolosemplice",
+        "type": "text",
+        "valueraw": "",
+        "value": null
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "shortname": "Cybersecurity Fundamentals",
+    "categoryid": 2,
+    "categorysortorder": 20005,
+    "fullname": "Cybersecurity Fundamentals",
+    "displayname": "Cybersecurity Fundamentals",
+    "idnumber": "",
+    "summary": "<p>Il corso \"Cybersecurity Fundamentals for executives\" fornisce una panoramica completa delle minacce cibernetiche attuali e delle best practice per proteggere le aziende, con un focus specifico sul settore produttivo. Il corso integra elementi interattivi, come simulazioni di attacchi di phishing, compromissioni di reti wi-fi e simulazioni di data exfiltration, per migliorare la consapevolezza e la preparazione dei partecipanti.</p>",
+    "summaryformat": 1,
+    "format": "topics",
+    "showgrades": 1,
+    "newsitems": 5,
+    "startdate": 1748404800,
+    "enddate": 0,
+    "numsections": 4,
+    "maxbytes": 0,
+    "showreports": 0,
+    "visible": 1,
+    "hiddensections": 1,
+    "groupmode": 1,
+    "groupmodeforce": 0,
+    "defaultgroupingid": 0,
+    "timecreated": 1748347661,
+    "timemodified": 1765786293,
+    "enablecompletion": 1,
+    "completionnotify": 0,
+    "lang": "",
+    "forcetheme": "",
+    "courseformatoptions": [
+      {
+        "name": "hiddensections",
+        "value": 1
+      },
+      {
+        "name": "coursedisplay",
+        "value": 0
+      }
+    ],
+    "showactivitydates": true,
+    "showcompletionconditions": true,
+    "customfields": [
+      {
+        "name": "Categoria",
+        "shortname": "categoria",
+        "type": "text",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Livello",
+        "shortname": "livello",
+        "type": "text",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Ore",
+        "shortname": "ore",
+        "type": "number",
+        "valueraw": 8,
+        "value": "8"
+      },
+      {
+        "name": "Prezzo",
+        "shortname": "prezzo",
+        "type": "number",
+        "valueraw": null,
+        "value": null
+      },
+      {
+        "name": "Modalità",
+        "shortname": "modalita",
+        "type": "text",
+        "valueraw": "Online",
+        "value": "Online"
+      },
+      {
+        "name": "Programmato",
+        "shortname": "programmato",
+        "type": "checkbox",
+        "valueraw": 0,
+        "value": "No"
+      },
+      {
+        "name": "Macro argomenti",
+        "shortname": "mb2skills",
+        "type": "textarea",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Profilo partecipante",
+        "shortname": "profilo",
+        "type": "textarea",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Pre-requisiti",
+        "shortname": "mb2requirements",
+        "type": "textarea",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Obiettivi",
+        "shortname": "obiettivi",
+        "type": "textarea",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Altro",
+        "shortname": "altro",
+        "type": "textarea",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Bottone",
+        "shortname": "mb2link",
+        "type": "text",
+        "valueraw": "https://www.inrebusdl.it/cim/mod/page/view.php?id=19",
+        "value": "https://www.inrebusdl.it/cim/mod/page/view.php?id=19"
+      },
+      {
+        "name": "Learning Outcomes ",
+        "shortname": "learningoutcomes",
+        "type": "textarea",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Costo per partecipante",
+        "shortname": "costopartecipante",
+        "type": "number",
+        "valueraw": null,
+        "value": null
+      },
+      {
+        "name": "Max partecipanti",
+        "shortname": "maxpartecipanti",
+        "type": "number",
+        "valueraw": null,
+        "value": null
+      },
+      {
+        "name": "Date Lezioni",
+        "shortname": "datelezioni",
+        "type": "text",
+        "valueraw": "3 ottobre, 4 ottobre",
+        "value": "3 ottobre, 4 ottobre"
+      },
+      {
+        "name": "Titolo Semplice",
+        "shortname": "titolosemplice",
+        "type": "text",
+        "valueraw": "",
+        "value": null
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "shortname": "DT",
+    "categoryid": 2,
+    "categorysortorder": 20004,
+    "fullname": "Digital Training - DIGITAL TRANSFORMATION",
+    "displayname": "Digital Training - DIGITAL TRANSFORMATION",
+    "idnumber": "",
+    "summary": "<p>Il corso fornisce gli strumenti per comprendere che cosa siano la realtà virtuale e la realtà aumentata e come utilizzare queste tecnologie con gli strumenti a disposizione.</p>\r\n<p>Il corso affianca una parte di apprendimento teorico ad un'esperienza presso la linea pilota Digital Factory di CIM4.0 dove i partecipanti toccheranno con mano le tecnologie trattate in precedenza.</p>",
+    "summaryformat": 1,
+    "format": "topics",
+    "showgrades": 1,
+    "newsitems": 5,
+    "startdate": 1761984000,
+    "enddate": 1777618800,
+    "numsections": 4,
+    "maxbytes": 0,
+    "showreports": 0,
+    "visible": 1,
+    "hiddensections": 1,
+    "groupmode": 0,
+    "groupmodeforce": 0,
+    "defaultgroupingid": 0,
+    "timecreated": 1748347721,
+    "timemodified": 1770630344,
+    "enablecompletion": 1,
+    "completionnotify": 0,
+    "lang": "",
+    "forcetheme": "",
+    "courseformatoptions": [
+      {
+        "name": "hiddensections",
+        "value": 1
+      },
+      {
+        "name": "coursedisplay",
+        "value": 0
+      }
+    ],
+    "showactivitydates": true,
+    "showcompletionconditions": true,
+    "customfields": [
+      {
+        "name": "Categoria",
+        "shortname": "categoria",
+        "type": "text",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Livello",
+        "shortname": "livello",
+        "type": "text",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Ore",
+        "shortname": "ore",
+        "type": "number",
+        "valueraw": 16,
+        "value": "16"
+      },
+      {
+        "name": "Prezzo",
+        "shortname": "prezzo",
+        "type": "number",
+        "valueraw": null,
+        "value": null
+      },
+      {
+        "name": "Modalità",
+        "shortname": "modalita",
+        "type": "text",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Programmato",
+        "shortname": "programmato",
+        "type": "checkbox",
+        "valueraw": 0,
+        "value": "No"
+      },
+      {
+        "name": "Macro argomenti",
+        "shortname": "mb2skills",
+        "type": "textarea",
+        "valueraw": "<p>SEZIONE MACRO ARGOMENTI</p>",
+        "value": "<p>SEZIONE MACRO ARGOMENTI</p>"
+      },
+      {
+        "name": "Profilo partecipante",
+        "shortname": "profilo",
+        "type": "textarea",
+        "valueraw": "<p>SEZIONE PROFILO PARTECIPANTE</p>",
+        "value": "<p>SEZIONE PROFILO PARTECIPANTE</p>"
+      },
+      {
+        "name": "Pre-requisiti",
+        "shortname": "mb2requirements",
+        "type": "textarea",
+        "valueraw": "<p>SEZIONE PRE-REQUISITI</p>",
+        "value": "<p>SEZIONE PRE-REQUISITI</p>"
+      },
+      {
+        "name": "Obiettivi",
+        "shortname": "obiettivi",
+        "type": "textarea",
+        "valueraw": "<p>SEZIONE OBIETTIVI</p>",
+        "value": "<p>SEZIONE OBIETTIVI</p>"
+      },
+      {
+        "name": "Altro",
+        "shortname": "altro",
+        "type": "textarea",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Bottone",
+        "shortname": "mb2link",
+        "type": "text",
+        "valueraw": "https://www.inrebusdl.it/cim/mod/page/view.php?id=19",
+        "value": "https://www.inrebusdl.it/cim/mod/page/view.php?id=19"
+      },
+      {
+        "name": "Learning Outcomes ",
+        "shortname": "learningoutcomes",
+        "type": "textarea",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Costo per partecipante",
+        "shortname": "costopartecipante",
+        "type": "number",
+        "valueraw": null,
+        "value": null
+      },
+      {
+        "name": "Max partecipanti",
+        "shortname": "maxpartecipanti",
+        "type": "number",
+        "valueraw": null,
+        "value": null
+      },
+      {
+        "name": "Date Lezioni",
+        "shortname": "datelezioni",
+        "type": "text",
+        "valueraw": "",
+        "value": null
+      },
+      {
+        "name": "Titolo Semplice",
+        "shortname": "titolosemplice",
+        "type": "text",
+        "valueraw": "",
+        "value": null
+      }
+    ]
+  }
+]

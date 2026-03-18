@@ -1143,7 +1143,6 @@
       overflow: hidden;
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      group: true;
       display: flex;
       flex-direction: column;
     }
@@ -2502,6 +2501,48 @@
       background: var(--bg-card);
       box-shadow: 0 0 0 3px var(--primary-subtle);
     }
+    
+    /* ===== LIKE BUTTON ===== */
+    .like-btn {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: all 0.2s ease;
+      z-index: 10;
+    }
+    .like-btn:hover {
+      background: rgba(0, 0, 0, 0.6);
+      transform: scale(1.1);
+    }
+    .like-btn.active {
+      border-color: #ef4444;
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+    }
+    [data-theme="light"] .like-btn {
+      background: rgba(255, 255, 255, 0.7);
+      border-color: rgba(0, 0, 0, 0.1);
+      color: #0f172a;
+    }
+    [data-theme="light"] .like-btn:hover {
+      background: rgba(255, 255, 255, 0.9);
+    }
+    [data-theme="light"] .like-btn.active {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+    }
   </style>
 
 </head>
@@ -2590,7 +2631,8 @@
       isLoading: false,
       uploadedCV: null,
       analysisResult: null,
-      moodleCourses: []
+      moodleCourses: [],
+      likedCourses: {}
     };
 
 
@@ -2895,95 +2937,68 @@
                 <div class="section-header" style="margin-bottom:1.25rem;">
                     <div class="section-title">
                         <div class="section-title-dot"></div>
-                        Personalized Learning Plan
+                        Course Recommendations
                     </div>
-                    <span style="font-size:0.75rem;color:var(--text-muted);">${STATE.recommendations.length} modules</span>
                 </div>
                 <div class="grid-3" id="rec-grid">
-                    ${STATE.recommendations.map((item, idx) => Components.RecommendationCard(item, idx)).join('')}
-                </div>
+                    ${STATE.moodleCourses && STATE.moodleCourses.length > 0
+          ? STATE.moodleCourses.slice(0, 3).map((course, idx) => Components.RecommendationCard(course, idx, 'Recommended')).join('')
+          : (STATE.moodleCourses === null ? '<div style="color:var(--text-muted);font-size:0.875rem;">Could not load courses.</div>' : '<div style="color:var(--text-muted);font-size:0.875rem;">Loading courses...</div>')}
                 </div>
             </div>
 
-            <!-- Available Moodle Courses -->
-            <div id="moodle-courses-section" style="margin-top:2.5rem;">
+            <!-- Community Suggestions -->
+            <div id="community-courses-section" style="margin-top:2.5rem; display: ${STATE.moodleCourses && STATE.moodleCourses.length > 3 ? 'block' : 'none'};">
                 <div class="section-header" style="margin-bottom:1.25rem;">
                     <div class="section-title">
-                        <div class="section-title-dot" style="background:#f16421;box-shadow:0 0 8px rgba(241,100,33,0.5);"></div>
-                        Available Courses on inRebus Edu
+                        <div class="section-title-dot" style="background:#8b5cf6;box-shadow:0 0 8px rgba(139,92,246,0.5);"></div>
+                        Content Useful to Similar Users
                     </div>
                 </div>
-                <div class="grid-3" id="moodle-grid">
-                    ${STATE.moodleCourses && STATE.moodleCourses.length > 0
-          ? STATE.moodleCourses.slice(0, 3).map((course, idx) => Components.MoodleCourseCard(course, idx)).join('')
-          : (STATE.moodleCourses === null ? '<div style="color:var(--text-muted);font-size:0.875rem;">Could not load courses.</div>' : '<div style="color:var(--text-muted);font-size:0.875rem;">Loading courses...</div>')}
+                <div class="grid-3" id="community-grid">
+                    ${STATE.moodleCourses && STATE.moodleCourses.length > 3
+          ? STATE.moodleCourses.slice(3, 6).map((course, idx) => Components.RecommendationCard(course, idx + 3, 'Community Pick')).join('')
+          : ''}
                 </div>
             </div>
         </div>
     `,
 
 
-      RecommendationCard: (item, idx) => {
-        const images = [
-          'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80&auto=format&fit=crop',
-          'https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=400&q=80&auto=format&fit=crop',
-          'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&q=80&auto=format&fit=crop',
-          'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&q=80&auto=format&fit=crop',
-          'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&q=80&auto=format&fit=crop',
-        ];
-        const img = images[idx % images.length];
-        const durations = ['2h 30m', '4h 15m', '1h 45m', '3h 00m', '5h 20m'];
-        const levels = ['Beginner', 'Intermediate', 'Advanced'];
+      RecommendationCard: (course, idx, badgeLabel = 'Course') => {
+        const id = `rec-${course.id}`;
+        const isLiked = STATE.likedCourses && STATE.likedCourses[id];
+        const heartFill = isLiked ? '#ef4444' : 'none';
+
+        let moodleImg = '';
+        if (course.courseimage) {
+            moodleImg = course.courseimage;
+        } else if (course.overviewfiles && course.overviewfiles.length > 0) {
+            moodleImg = course.overviewfiles[0].fileurl;
+            if (moodleImg && !moodleImg.includes('token=')) {
+                const sep = moodleImg.includes('?') ? '&' : '?';
+                const token = '62bc86a9e2339179f55f334a177a9113';
+                moodleImg += `${sep}token=${token}`;
+            }
+        }
+
+        const CIM_DEFAULT_IMG = 'https://www.inrebusdl.it/cim/theme/image.php/mb2nl/theme/1/default_course_image';
+        const img = moodleImg || CIM_DEFAULT_IMG;
+        
+        const MOODLE_BASE_URL = 'https://www.inrebusdl.it/cim';
+        const courseUrl = `${MOODLE_BASE_URL}/course/view.php?id=${course.id}`;
+
         return `
-        <div class="rec-card" id="rec-card-${idx}" style="position:relative;overflow:hidden;" onclick="
-            if(this.dataset.enrolled) return;
-            this.dataset.enrolled = 'true';
-            const btn = this.querySelector('.rec-card-cta');
-            gsap.to(this, { scale: 1.02, duration: 0.2 });
-            btn.innerHTML = 'Enrolling...';
-            setTimeout(() => {
-                btn.innerHTML = 'In Progress';
-                btn.style.background = '#22c55e';
-                btn.style.color = '#fff';
-                btn.style.borderColor = '#22c55e';
-                const pb = document.createElement('div');
-                pb.style.cssText = 'position:absolute;bottom:0;left:0;height:4px;background:#22c55e;width:0;';
-                this.appendChild(pb);
-                gsap.to(pb, { width: '10%', duration: 0.5, ease: 'power2.out' });
-            }, 800);
+        <div class="rec-card" id="rec-card-${course.id}" style="position:relative;overflow:hidden;cursor:pointer;" onclick="
+            if(event.target.closest('.like-btn')) return;
+            window.open('${courseUrl}', '_blank');
         ">
-            <div class="rec-card-image">
-                <img src="${img}" alt="${item.title}" loading="lazy"/>
-                <div class="rec-card-badge">${item.type || 'Course'}</div>
-            </div>
-            <div class="rec-card-body">
-                <div class="rec-card-title">${item.title}</div>
-                <div class="rec-card-skill">${item.target_skill}</div>
-                <div class="rec-card-footer">
-                    <div class="rec-card-cta">
-                        Start Module
-                        <i data-lucide="arrow-right" style="width:12px;height:12px;"></i>
-                    </div>
-                    <span style="font-size:0.7rem;color:var(--text-muted);">${durations[idx % durations.length]}</span>
-                </div>
-            </div>
-        </div>`;
-      },
-
-      MoodleCourseCard: (course, idx) => {
-        const images = [
-          'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&q=80&auto=format&fit=crop',
-          'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=400&q=80&auto=format&fit=crop',
-          'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&q=80&auto=format&fit=crop'
-        ];
-        const img = images[idx % images.length];
-        const courseUrl = `https://www.inrebusdl.it/cim/course/view.php?id=${course.id}`;
-
-        return `
-        <div class="rec-card" onclick="window.open('${courseUrl}', '_blank')" style="cursor:pointer;" id="moodle-card-${idx}">
+            <button class="like-btn ${isLiked ? 'active' : ''}" onclick="event.stopPropagation(); App.toggleLike(this, '${id}')" aria-label="Like">
+                <i data-lucide="heart" style="width:14px;height:14px;fill:${heartFill};"></i>
+            </button>
             <div class="rec-card-image">
                 <img src="${img}" alt="${course.fullname}" loading="lazy"/>
-                <div class="rec-card-badge">Moodle Course</div>
+                <div class="rec-card-badge">${badgeLabel}</div>
             </div>
             <div class="rec-card-body">
                 <div class="rec-card-title">${course.fullname}</div>
@@ -3397,19 +3412,19 @@
 
           let courses = await response.json();
           if (Array.isArray(courses)) {
-            // Filter out the Site Home (id 1) and keep 3 random or top courses
+            // Filter out the Site Home (id 1) and keep more courses to populate both sections (e.g. up to 10)
             courses = courses.filter(c => c.id !== 1);
-            STATE.moodleCourses = courses.slice(0, 3);
+            STATE.moodleCourses = courses.slice(0, 10);
 
             // Re-render dashboard if it's the active view to show newly fetched courses
-            if (STATE.activeTab === 'dashboard' && document.getElementById('moodle-grid')) {
+            if (STATE.activeTab === 'dashboard' && document.getElementById('rec-grid')) {
               this.showView('dashboard');
             }
           }
         } catch (error) {
           console.error("Error fetching courses from Moodle:", error);
           STATE.moodleCourses = null;
-          if (STATE.activeTab === 'dashboard' && document.getElementById('moodle-grid')) {
+          if (STATE.activeTab === 'dashboard' && document.getElementById('rec-grid')) {
             this.showView('dashboard');
           }
         }
@@ -3459,6 +3474,22 @@
             { scale: 1, duration: 0.35, ease: 'back.out(2)' }
           );
         });
+      },
+
+      toggleLike(btn, courseId) {
+        const liked = { ...(STATE.likedCourses || {}) };
+        const isNowLiked = !liked[courseId];
+        liked[courseId] = isNowLiked;
+        
+        if (isNowLiked) {
+            btn.classList.add('active');
+            btn.querySelector('i').style.fill = '#ef4444';
+        } else {
+            btn.classList.remove('active');
+            btn.querySelector('i').style.fill = 'none';
+        }
+        
+        STATE.likedCourses = liked;
       },
 
       renderSidebar() {
