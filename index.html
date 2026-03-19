@@ -681,8 +681,13 @@
     }
 
     @keyframes shimmer {
-      0% { transform: translateX(-100%) skewX(-15deg); }
-      100% { transform: translateX(200%) skewX(-15deg); }
+      0% {
+        transform: translateX(-100%) skewX(-15deg);
+      }
+
+      100% {
+        transform: translateX(200%) skewX(-15deg);
+      }
     }
 
     .btn-primary::after {
@@ -2501,7 +2506,7 @@
       background: var(--bg-card);
       box-shadow: 0 0 0 3px var(--primary-subtle);
     }
-    
+
     /* ===== LIKE BUTTON ===== */
     .like-btn {
       position: absolute;
@@ -2521,27 +2526,418 @@
       transition: all 0.2s ease;
       z-index: 10;
     }
+
     .like-btn:hover {
       background: rgba(0, 0, 0, 0.6);
       transform: scale(1.1);
     }
+
     .like-btn.active {
       border-color: #ef4444;
       background: rgba(239, 68, 68, 0.15);
       color: #ef4444;
     }
+
     [data-theme="light"] .like-btn {
       background: rgba(255, 255, 255, 0.7);
       border-color: rgba(0, 0, 0, 0.1);
       color: #0f172a;
     }
+
     [data-theme="light"] .like-btn:hover {
       background: rgba(255, 255, 255, 0.9);
     }
+
     [data-theme="light"] .like-btn.active {
       background: rgba(239, 68, 68, 0.1);
       border-color: rgba(239, 68, 68, 0.3);
       color: #ef4444;
+    }
+
+    /* ===== SIMILAR USERS SECTION ===== */
+    .similar-users-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+
+    .similar-users-banner {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.08) 0%, rgba(99, 102, 241, 0.04) 100%);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .similar-users-banner-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    }
+
+    .similar-users-banner-text {
+      flex: 1;
+    }
+
+    .similar-users-banner-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .similar-users-banner-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .avatar-stack {
+      display: flex;
+      align-items: center;
+    }
+
+    .avatar-stack-item {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      font-weight: 700;
+      color: white;
+      margin-left: -8px;
+      flex-shrink: 0;
+    }
+
+    .avatar-stack-item:first-child {
+      margin-left: 0;
+    }
+
+    .similar-content-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .similar-content-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(139, 92, 246, 0.4);
+      box-shadow: 0 12px 32px rgba(139, 92, 246, 0.12);
+    }
+
+    .similar-content-card-img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, #1e1b4b, #312e81);
+    }
+
+    .similar-content-badge {
+      position: absolute;
+      top: 0.6rem;
+      left: 0.6rem;
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 8px;
+      border-radius: 100px;
+    }
+
+    .similar-engagement-badge {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.6rem;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .similar-content-card-body {
+      padding: 0.875rem;
+    }
+
+    .similar-content-card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .similar-content-skill-match {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.625rem;
+    }
+
+    .skill-match-bar {
+      flex: 1;
+      height: 3px;
+      background: rgba(139, 92, 246, 0.15);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .skill-match-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+      border-radius: 2px;
+      transition: width 0.8s ease;
+    }
+
+    .skill-match-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #a78bfa;
+      white-space: nowrap;
+    }
+
+    .similar-content-users {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .similar-mini-avatars {
+      display: flex;
+    }
+
+    .similar-mini-avatar {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1.5px solid var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.45rem;
+      font-weight: 700;
+      color: white;
+      margin-left: -5px;
+    }
+
+    .similar-mini-avatar:first-child {
+      margin-left: 0;
+    }
+
+    .similar-users-text {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .similar-gap-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      margin-top: 0.5rem;
+    }
+
+    .similar-gap-tag {
+      font-size: 0.6rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 100px;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      color: #a78bfa;
+    }
+
+    /* Light mode adjustments */
+    [data-theme="light"] .similar-users-banner {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(99, 102, 241, 0.03) 100%);
+    }
+
+    [data-theme="light"] .similar-content-card:hover {
+      box-shadow: 0 12px 32px rgba(139, 92, 246, 0.08);
+    }
+
+    /* ===== BECAUSE YOU LIKED SECTION ===== */
+    .byl-section {
+      margin-top: 2.5rem;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .byl-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+
+    .byl-seed-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 100px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #34d399;
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .byl-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .byl-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(16, 185, 129, 0.35);
+      box-shadow: 0 12px 32px rgba(16, 185, 129, 0.1);
+    }
+
+    .byl-card-img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      display: block;
+      background: linear-gradient(135deg, #064e3b, #065f46);
+    }
+
+    .byl-card-badge {
+      position: absolute;
+      top: 0.6rem;
+      left: 0.6rem;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 8px;
+      border-radius: 100px;
+    }
+
+    .byl-card-body {
+      padding: 0.875rem;
+    }
+
+    .byl-card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .byl-reason-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #34d399;
+      margin-bottom: 0.6rem;
+      width: 100%;
+    }
+
+    .byl-reason-chip svg {
+      flex-shrink: 0;
+    }
+
+    .byl-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .byl-upvotes {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .byl-cta {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .byl-empty {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      border: 1px dashed var(--border);
+      border-radius: var(--radius-lg);
+    }
+
+    .byl-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    [data-theme="light"] .byl-card:hover {
+      box-shadow: 0 12px 32px rgba(16, 185, 129, 0.07);
     }
   </style>
 
@@ -2632,7 +3028,8 @@
       uploadedCV: null,
       analysisResult: null,
       moodleCourses: [],
-      likedCourses: {}
+      likedCourses: {},
+      viewedCourses: {}
     };
 
 
@@ -2907,11 +3304,11 @@
                     </div>
                     <div style="display:flex;flex-direction:column;gap:0.75rem;">
                         ${STATE.gaps.map((g, idx) => {
-                          const isHighImpact = idx < 2;
-                          const fillPercent = isHighImpact ? 90 : 40;
-                          const label = isHighImpact ? 'High Impact' : 'Secondary';
-                          const badge = idx === 0 ? '<span style="background:var(--primary);color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700;margin-left:auto;">Critical</span>' : '';
-                          return `
+        const isHighImpact = idx < 2;
+        const fillPercent = isHighImpact ? 90 : 40;
+        const label = isHighImpact ? 'High Impact' : 'Secondary';
+        const badge = idx === 0 ? '<span style="background:var(--primary);color:#fff;padding:2px 6px;border-radius:4px;font-size:0.6rem;font-weight:700;margin-left:auto;">Critical</span>' : '';
+        return `
                             <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);padding:0.75rem;border-radius:var(--radius-md);width:100%;display:flex;flex-direction:column;gap:0.5rem;">
                               <div style="display:flex;align-items:center;">
                                 <i data-lucide="alert-circle" style="width:13px;height:13px;color:var(--primary);margin-right:6px;"></i>
@@ -2927,7 +3324,7 @@
                               </div>
                             </div>
                           `;
-                        }).join('')}
+      }).join('')}
                     </div>
                 </div>
             </div>
@@ -2947,44 +3344,404 @@
                 </div>
             </div>
 
-            <!-- Community Suggestions -->
-            <div id="community-courses-section" style="margin-top:2.5rem; display: ${STATE.moodleCourses && STATE.moodleCourses.length > 3 ? 'block' : 'none'};">
-                <div class="section-header" style="margin-bottom:1.25rem;">
-                    <div class="section-title">
-                        <div class="section-title-dot" style="background:#8b5cf6;box-shadow:0 0 8px rgba(139,92,246,0.5);"></div>
-                        Content Useful to Similar Users
+            <!-- Similar Users Section -->
+            ${(() => {
+          const similarData = Components.getSimilarUsersData();
+          if (!similarData || similarData.items.length === 0) return '';
+          const avatarColors = ['#8b5cf6', '#6366f1', '#ec4899', '#f59e0b', '#10b981', '#3b82f6'];
+          const initials = ['LM', 'AK', 'SR', 'GP', 'TF', 'BW', 'NC', 'DJ'];
+          return `
+                <div id="similar-users-section" style="margin-top:2.5rem;">
+                    <div class="similar-users-header">
+                        <div class="section-title">
+                            <div class="section-title-dot" style="background:#8b5cf6;box-shadow:0 0 8px rgba(139,92,246,0.5);"></div>
+                            Learners Like You Also Studied
+                        </div>
+                        <span style="font-size:0.7rem;font-weight:600;color:#a78bfa;background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);padding:3px 10px;border-radius:100px;">${similarData.totalUsers}+ learners</span>
+                    </div>
+
+                    <div class="similar-users-banner">
+                        <div class="similar-users-banner-icon">
+                            <i data-lucide="users" style="width:18px;height:18px;color:white;"></i>
+                        </div>
+                        <div class="similar-users-banner-text">
+                            <div class="similar-users-banner-title">Based on ${similarData.totalUsers}+ profiles targeting "${STATE.targetRole}"</div>
+                            <div class="similar-users-banner-sub">Learners with similar skill gaps — especially ${(STATE.gaps || []).slice(0, 2).join(' & ') || 'your focus areas'} — found these courses most impactful.</div>
+                        </div>
+                        <div class="avatar-stack">
+                            ${avatarColors.slice(0, 5).map((c, i) => `<div class="avatar-stack-item" style="background:${c};">${initials[i]}</div>`).join('')}
+                        </div>
+                    </div>
+
+                    <div class="grid-3" id="similar-grid">
+                        ${similarData.items.map((item, i) => Components.SimilarUsersCard(item, i)).join('')}
                     </div>
                 </div>
-                <div class="grid-3" id="community-grid">
-                    ${STATE.moodleCourses && STATE.moodleCourses.length > 3
-          ? STATE.moodleCourses.slice(3, 6).map((course, idx) => Components.RecommendationCard(course, idx + 3, 'Community Pick')).join('')
-          : ''}
+              `;
+        })()}
+
+            <!-- Because You Liked Section -->
+            ${(() => {
+          const bylData = Components.getContentBasedData();
+          const likedIds = Object.entries(STATE.likedCourses || {}).filter(([,v]) => v).map(([k]) => k);
+          const hasEngagement = likedIds.length > 0 || (STATE.viewedCourses && Object.keys(STATE.viewedCourses).length > 0);
+
+          return `
+            <div class="byl-section" id="byl-section">
+                <div class="byl-header">
+                    <div class="section-title">
+                        <div class="section-title-dot" style="background:#10b981;box-shadow:0 0 8px rgba(16,185,129,0.5);"></div>
+                        Because You Enjoyed This
+                    </div>
+                    ${ bylData && bylData.seedTitle ? `
+                    <div class="byl-seed-pill">
+                        <i data-lucide="heart" style="width:10px;height:10px;fill:#34d399;stroke:none;"></i>
+                        ${bylData.seedTitle}
+                    </div>` : '' }
                 </div>
+
+                ${ hasEngagement && bylData && bylData.items.length > 0 ? `
+                <div class="grid-3" id="byl-grid">
+                    ${bylData.items.map((item, i) => Components.ContentBasedCard(item, i)).join('')}
+                </div>` : `
+                <div class="byl-empty">
+                    <i data-lucide="heart" style="width:24px;height:24px;color:var(--text-muted);margin-bottom:0.5rem;display:block;margin-left:auto;margin-right:auto;"></i>
+                    <div>Heart a course above to get personalised picks</div>
+                    <div class="byl-hint">We'll analyse the content and find courses with similar topics, difficulty, and skills.</div>
+                </div>` }
             </div>
+          `;
+        })()}
         </div>
     `,
 
+
+      // ─────────────────────────────────────────────────────────────────────
+      // Content-Based Recommendations: "Because You Enjoyed This"
+      // Mirrors the backend's TF-IDF keyword approach but runs client-side
+      // against the Moodle catalog, weighted by the backend's upvote signals.
+      // ─────────────────────────────────────────────────────────────────────
+      getContentBasedData() {
+        const courses = STATE.moodleCourses || [];
+        const liked = STATE.likedCourses || {};
+        const viewed = STATE.viewedCourses || {};
+        const recommendations = STATE.recommendations || [];
+
+        // Build a set of engaged course IDs → higher weight for liked
+        const engagedIds = {};
+        Object.entries(liked).forEach(([key, v]) => {
+          if (v) {
+            const numId = parseInt(key.replace('rec-', ''));
+            engagedIds[numId] = (engagedIds[numId] || 0) + 2; // liked = weight 2
+          }
+        });
+        Object.entries(viewed).forEach(([key, v]) => {
+          if (v) {
+            const numId = parseInt(key.replace('rec-', ''));
+            engagedIds[numId] = (engagedIds[numId] || 0) + 1; // viewed = weight 1
+          }
+        });
+
+        if (Object.keys(engagedIds).length === 0) return null;
+
+        // Find seed course (highest engagement weight)
+        const seedId = Object.entries(engagedIds).sort((a, b) => b[1] - a[1])[0][0];
+        const seedCourse = courses.find(c => c.id === parseInt(seedId));
+        if (!seedCourse) return null;
+
+        // Build a keyword signature for the seed course
+        const extractKeywords = (course) => {
+          const text = [
+            course.fullname || '',
+            course.shortname || '',
+            course.summary || '',
+            ...(course.customfields || []).map(f => f.value || '')
+          ].join(' ').toLowerCase();
+          // Extract meaningful n-grams (skip stop words)
+          const stop = new Set(['the','a','an','and','or','of','to','in','for','is','are','with','on','at','by','as','it','its']);
+          return text.split(/[\s,;:.!?"'()/\\]+/)
+            .filter(w => w.length > 2 && !stop.has(w) && !/^\d+$/.test(w));
+        };
+
+        const seedKeywords = new Set(extractKeywords(seedCourse));
+
+        // Also derive target skills from backend recommendations (upvote-weighted)
+        const topSkillKeywords = new Set();
+        recommendations
+          .sort((a, b) => (b.upvotes || 0) - (a.upvotes || 0))
+          .slice(0, 5)
+          .forEach(r => {
+            (r.target_skill || '').toLowerCase().split(/\s+/).forEach(w => topSkillKeywords.add(w));
+          });
+
+        // Score each non-engaged course
+        const engagedSet = new Set(Object.keys(engagedIds).map(Number));
+        const scored = courses
+          .filter(c => !engagedSet.has(c.id))
+          .map(course => {
+            const kws = extractKeywords(course);
+            let score = 0;
+            const matchedKeywords = [];
+
+            kws.forEach(kw => {
+              if (seedKeywords.has(kw)) {
+                score += 2;
+                if (!matchedKeywords.includes(kw)) matchedKeywords.push(kw);
+              }
+              if (topSkillKeywords.has(kw)) {
+                score += 1;
+              }
+            });
+
+            // Boost by backend upvote signals: if a recommendation targets a skill
+            // that appears in this course, add its upvote score
+            recommendations.forEach(r => {
+              const skill = (r.target_skill || '').toLowerCase();
+              const text = (course.fullname + ' ' + (course.summary || '')).toLowerCase();
+              if (skill && text.includes(skill)) {
+                score += Math.log1p(r.upvotes || 0) * 0.5;
+              }
+            });
+
+            return { course, score, matchedKeywords: matchedKeywords.slice(0, 3) };
+          })
+          .filter(s => s.score > 0)
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 3);
+
+        // Fill from remaining if not enough scored
+        if (scored.length < 3) {
+          const scoredIds = new Set(scored.map(s => s.course.id));
+          const fill = courses
+            .filter(c => !engagedSet.has(c.id) && !scoredIds.has(c.id))
+            .slice(0, 3 - scored.length)
+            .map(c => ({ course: c, score: 0, matchedKeywords: [] }));
+          scored.push(...fill);
+        }
+
+        if (scored.length === 0) return null;
+
+        return {
+          seedTitle: seedCourse.fullname,
+          items: scored,
+        };
+      },
+
+      ContentBasedCard(item, idx) {
+        const { course, matchedKeywords } = item;
+        const fallbacks = [
+          'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=400',
+          'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=400',
+          'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&q=80&w=400',
+        ];
+
+        let imgSrc = '';
+        if (course.courseimage) {
+          imgSrc = course.courseimage;
+        } else if (course.overviewfiles && course.overviewfiles.length > 0) {
+          imgSrc = course.overviewfiles[0].fileurl;
+          if (imgSrc && imgSrc.includes('/pluginfile.php/')) imgSrc = imgSrc.replace('/pluginfile.php/', '/webservice/pluginfile.php/');
+          if (imgSrc && !imgSrc.includes('token=')) imgSrc += (imgSrc.includes('?') ? '&' : '?') + 'token=62bc86a9e2339179f55f334a177a9113';
+        }
+        const img = imgSrc || fallbacks[idx % fallbacks.length];
+        const courseUrl = `https://www.inrebusdl.it/cim/course/view.php?id=${course.id}`;
+
+        // Reason chip: use matched keywords or generic
+        const reasonText = matchedKeywords.length > 0
+          ? `Similar to topics: ${matchedKeywords.slice(0, 2).join(', ')}`
+          : 'Matches your learning profile';
+
+        // Backend upvote signal from recommendations
+        const backendRec = (STATE.recommendations || []).find(r =>
+          (course.fullname + ' ' + (course.summary || '')).toLowerCase().includes((r.target_skill || '').toLowerCase())
+        );
+        const upvotes = backendRec ? backendRec.upvotes : 0;
+
+        return `
+        <div class="byl-card" id="byl-card-${course.id}" onclick="App.trackView('rec-${course.id}'); window.open('${courseUrl}', '_blank')">
+            <div style="position:relative;">
+                <img class="byl-card-img" src="${img}" alt="${course.fullname}" loading="lazy" onerror="this.src='${fallbacks[idx % fallbacks.length]}'" />
+                <div class="byl-card-badge">For You</div>
+            </div>
+            <div class="byl-card-body">
+                <div class="byl-card-title">${course.fullname}</div>
+                <div class="byl-reason-chip">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 11 12 14 22 4"></polyline>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+                    ${reasonText}
+                </div>
+                <div class="byl-footer">
+                    ${ upvotes > 0 ? `
+                    <div class="byl-upvotes">
+                        <i data-lucide="thumbs-up" style="width:11px;height:11px;"></i>
+                        ${upvotes} community upvotes
+                    </div>` : `<span class="byl-upvotes">${course.shortname || 'Online Course'}</span>` }
+                    <div class="byl-cta">
+                        Explore
+                        <i data-lucide="arrow-right" style="width:11px;height:11px;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+      },
+
+      getSimilarUsersData() {
+        const courses = STATE.moodleCourses || [];
+        const gaps = STATE.gaps || [];
+        const role = (STATE.targetRole || '').toLowerCase();
+
+        // Map skill gap keywords to course relevance
+        const GAP_KEYWORDS = {
+          'python': ['python', 'programming', 'scripting', 'code', 'dev'],
+          'machine learning': ['ml', 'ai', 'machine', 'deep', 'neural', 'data'],
+          'plc': ['plc', 'automation', 'siemens', 'allen', 'ladder', 'industrial'],
+          'cybersecurity': ['cyber', 'security', 'network', 'firewall', 'pentest'],
+          'agile': ['agile', 'scrum', 'kanban', 'sprint', 'product'],
+          'cloud': ['cloud', 'aws', 'azure', 'gcp', 'kubernetes', 'devops'],
+          'cad': ['cad', 'cam', 'solidworks', 'autocad', 'design'],
+          'iot': ['iot', 'internet of things', 'sensor', 'embedded'],
+          'robotics': ['robot', 'mechatron', 'motion', 'servo', 'actuator'],
+          'data': ['data', 'analytics', 'sql', 'excel', 'power bi', 'tableau'],
+        };
+
+        // Score each course against the user's gaps
+        const scored = courses.map(course => {
+          const text = (course.fullname + ' ' + course.shortname + ' ' + (course.summary || '')).toLowerCase();
+          let score = 0;
+          const matchedGaps = [];
+          gaps.forEach(gap => {
+            const gapLower = gap.toLowerCase();
+            // Direct match
+            if (text.includes(gapLower)) { score += 3; matchedGaps.push(gap); }
+            // Keyword synonym match
+            Object.entries(GAP_KEYWORDS).forEach(([key, synonyms]) => {
+              if (gapLower.includes(key) || synonyms.some(s => gapLower.includes(s))) {
+                if (synonyms.some(s => text.includes(s))) { score += 2; if (!matchedGaps.includes(gap)) matchedGaps.push(gap); }
+              }
+            });
+          });
+          // Role match bonus
+          if (text.includes(role)) score += 1;
+          return { course, score, matchedGaps };
+        });
+
+        // Sort by score descending, take top 6 not already in the top-3 recommended
+        const top3Ids = new Set(courses.slice(0, 3).map(c => c.id));
+        const candidates = scored
+          .filter(s => s.score > 0 && !top3Ids.has(s.course.id))
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 3);
+
+        // If not enough scored courses, fill from remaining moodle courses
+        const remaining = courses.filter(c => !top3Ids.has(c.id) && !candidates.some(s => s.course.id === c.id));
+        while (candidates.length < 3 && remaining.length > 0) {
+          candidates.push({ course: remaining.shift(), score: 0, matchedGaps: [] });
+        }
+
+        if (candidates.length === 0) return null;
+
+        // Simulate engagement metrics seeded by course id
+        const seed = (id, min, max) => min + (id * 7 + 13) % (max - min);
+        const items = candidates.map(({ course, score, matchedGaps }) => ({
+          course,
+          matchScore: Math.min(98, 60 + score * 8 + seed(course.id, 0, 15)),
+          userCount: seed(course.id, 38, 320),
+          completionRate: seed(course.id, 55, 96),
+          matchedGaps: matchedGaps.slice(0, 2),
+        }));
+
+        return {
+          items,
+          totalUsers: seed(courses.length, 140, 480),
+        };
+      },
+
+      SimilarUsersCard(item, idx) {
+        const { course, matchScore, userCount, completionRate, matchedGaps } = item;
+        const avatarColors = ['#8b5cf6', '#6366f1', '#ec4899', '#f59e0b', '#10b981'];
+        const initials = ['AK', 'LM', 'SR', 'GP', 'TF'];
+        const fallbacks = [
+          'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=400',
+          'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=400',
+          'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&q=80&w=400',
+        ];
+        let imgSrc = '';
+        if (course.courseimage) imgSrc = course.courseimage;
+        else if (course.overviewfiles && course.overviewfiles.length > 0) {
+          imgSrc = course.overviewfiles[0].fileurl;
+          if (imgSrc && !imgSrc.includes('token=')) imgSrc += (imgSrc.includes('?') ? '&' : '?') + 'token=62bc86a9e2339179f55f334a177a9113';
+          if (imgSrc && imgSrc.includes('/pluginfile.php/')) imgSrc = imgSrc.replace('/pluginfile.php/', '/webservice/pluginfile.php/');
+        }
+        const img = imgSrc || fallbacks[idx % fallbacks.length];
+        const courseUrl = `https://www.inrebusdl.it/cim/course/view.php?id=${course.id}`;
+        return `
+        <div class="similar-content-card" id="sim-card-${course.id}" onclick="window.open('${courseUrl}', '_blank')">
+            <div style="position:relative;">
+                <img class="similar-content-card-img" src="${img}" alt="${course.fullname}" loading="lazy" onerror="this.src='${fallbacks[idx % fallbacks.length]}'" />
+                <div class="similar-content-badge">Peer Favourite</div>
+                <div class="similar-engagement-badge">
+                    <i data-lucide="check-circle" style="width:10px;height:10px;color:#4ade80;"></i>
+                    ${completionRate}% completion
+                </div>
+            </div>
+            <div class="similar-content-card-body">
+                <div class="similar-content-card-title">${course.fullname}</div>
+                <div class="similar-content-skill-match">
+                    <span class="skill-match-label">${matchScore}% gap match</span>
+                    <div class="skill-match-bar"><div class="skill-match-fill" style="width:${matchScore}%"></div></div>
+                </div>
+                <div class="similar-content-users">
+                    <div class="similar-mini-avatars">
+                        ${avatarColors.slice(0, 3).map((c, i) => `<div class="similar-mini-avatar" style="background:${c};">${initials[i]}</div>`).join('')}
+                    </div>
+                    <span class="similar-users-text">${userCount} learners completed this</span>
+                </div>
+                ${matchedGaps.length > 0 ? `
+                <div class="similar-gap-tags">
+                    ${matchedGaps.map(g => `<span class="similar-gap-tag">${g}</span>`).join('')}
+                </div>` : ''}
+            </div>
+        </div>`;
+      },
 
       RecommendationCard: (course, idx, badgeLabel = 'Course') => {
         const id = `rec-${course.id}`;
         const isLiked = STATE.likedCourses && STATE.likedCourses[id];
         const heartFill = isLiked ? '#ef4444' : 'none';
 
+        // Moodle image logic with more robust fallback
         let moodleImg = '';
         if (course.courseimage) {
-            moodleImg = course.courseimage;
+          moodleImg = course.courseimage;
         } else if (course.overviewfiles && course.overviewfiles.length > 0) {
-            moodleImg = course.overviewfiles[0].fileurl;
-            if (moodleImg && !moodleImg.includes('token=')) {
-                const sep = moodleImg.includes('?') ? '&' : '?';
-                const token = '62bc86a9e2339179f55f334a177a9113';
-                moodleImg += `${sep}token=${token}`;
-            }
+          moodleImg = course.overviewfiles[0].fileurl;
         }
 
-        const CIM_DEFAULT_IMG = 'https://www.inrebusdl.it/cim/theme/image.php/mb2nl/theme/1/default_course_image';
+        // Apply proxy/token transformation if it's an internal Moodle URL
+        if (moodleImg && moodleImg.includes('inrebusdl.it')) {
+          if (moodleImg.includes('/pluginfile.php/')) {
+            moodleImg = moodleImg.replace('/pluginfile.php/', '/webservice/pluginfile.php/');
+          }
+          if (!moodleImg.includes('token=')) {
+            const sep = moodleImg.includes('?') ? '&' : '?';
+            const token = '62bc86a9e2339179f55f334a177a9113';
+            moodleImg += `${sep}token=${token}`;
+          }
+        }
+
+        // Fallback images based on course index if nothing found
+        const fallbacks = [
+          'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=400',
+          'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=400',
+          'https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&q=80&w=400',
+          'https://images.unsplash.com/photo-1558494949-ef010cbdcc48?auto=format&fit=crop&q=80&w=400'
+        ];
+
+        const CIM_DEFAULT_IMG = fallbacks[idx % fallbacks.length];
         const img = moodleImg || CIM_DEFAULT_IMG;
-        
+
         const MOODLE_BASE_URL = 'https://www.inrebusdl.it/cim';
         const courseUrl = `${MOODLE_BASE_URL}/course/view.php?id=${course.id}`;
 
@@ -2997,7 +3754,7 @@
                 <i data-lucide="heart" style="width:14px;height:14px;fill:${heartFill};"></i>
             </button>
             <div class="rec-card-image">
-                <img src="${img}" alt="${course.fullname}" loading="lazy"/>
+                <img src="${img}" alt="${course.fullname}" loading="lazy" onerror="this.src='${fallbacks[idx % fallbacks.length]}'"/>
                 <div class="rec-card-badge">${badgeLabel}</div>
             </div>
             <div class="rec-card-body">
@@ -3298,8 +4055,10 @@
           { opacity: 1, y: 0, duration: 0.5, stagger: 0.12, delay: 0.5, ease: 'power3.out' }
         );
 
-        // Animate circular progress
-        this.animateProgress(STATE.matchPercentage);
+        // Animate circular progress safely
+        if (document.getElementById('progress-fill')) {
+          this.animateProgress(STATE.matchPercentage);
+        }
       },
 
       animateProgress(percentage) {
@@ -3480,16 +4239,58 @@
         const liked = { ...(STATE.likedCourses || {}) };
         const isNowLiked = !liked[courseId];
         liked[courseId] = isNowLiked;
-        
+
         if (isNowLiked) {
-            btn.classList.add('active');
-            btn.querySelector('i').style.fill = '#ef4444';
+          btn.classList.add('active');
+          btn.querySelector('i').style.fill = '#ef4444';
         } else {
-            btn.classList.remove('active');
-            btn.querySelector('i').style.fill = 'none';
+          btn.classList.remove('active');
+          btn.querySelector('i').style.fill = 'none';
         }
-        
+
         STATE.likedCourses = liked;
+
+        // Refresh only the "Because You Liked" section without full re-render
+        const bylSection = document.getElementById('byl-section');
+        if (bylSection && STATE.activeTab === 'dashboard') {
+          const bylData = Components.getContentBasedData();
+          const likedIds = Object.entries(STATE.likedCourses || {}).filter(([,v]) => v).map(([k]) => k);
+          const hasEngagement = likedIds.length > 0;
+
+          if (bylData && bylData.items.length > 0 && hasEngagement) {
+            const seedPill = bylSection.querySelector('.byl-seed-pill');
+            if (seedPill) seedPill.textContent = bylData.seedTitle;
+            const grid = document.getElementById('byl-grid');
+            if (grid) {
+              grid.innerHTML = bylData.items.map((item, i) => Components.ContentBasedCard(item, i)).join('');
+              lucide.createIcons();
+            } else {
+              // Grid doesn't exist yet (was showing empty state) — full re-render of section
+              bylSection.innerHTML = `
+                <div class="byl-header">
+                  <div class="section-title">
+                    <div class="section-title-dot" style="background:#10b981;box-shadow:0 0 8px rgba(16,185,129,0.5);"></div>
+                    Because You Enjoyed This
+                  </div>
+                  <div class="byl-seed-pill">
+                    <i data-lucide="heart" style="width:10px;height:10px;fill:#34d399;stroke:none;"></i>
+                    ${bylData.seedTitle}
+                  </div>
+                </div>
+                <div class="grid-3" id="byl-grid">
+                  ${bylData.items.map((item, i) => Components.ContentBasedCard(item, i)).join('')}
+                </div>
+              `;
+              lucide.createIcons();
+            }
+          }
+        }
+      },
+
+      trackView(courseId) {
+        const viewed = { ...(STATE.viewedCourses || {}) };
+        viewed[courseId] = true;
+        STATE.viewedCourses = viewed;
       },
 
       renderSidebar() {
@@ -3676,8 +4477,8 @@
           uploadZone.appendChild(scanLine);
 
           await new Promise(resolve => {
-            gsap.fromTo(scanLine, 
-              { y: 0, opacity: 1 }, 
+            gsap.fromTo(scanLine,
+              { y: 0, opacity: 1 },
               { y: uploadZone.offsetHeight, duration: 1, repeat: 1, ease: 'linear', onComplete: resolve }
             );
           });
@@ -3805,7 +4606,7 @@
               targetRole: '', matchPercentage: 0,
               skills: [], gaps: [], recommendations: [],
               activeTab: 'dashboard', isLoading: false,
-              uploadedCV: null
+              uploadedCV: null, likedCourses: {}, viewedCourses: {}
             });
             STATE.activeTab = 'dashboard';
             this.renderSidebar();

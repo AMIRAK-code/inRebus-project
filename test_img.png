@@ -1,0 +1,1 @@
+{"error":"Eccezione nel controllo accesso","errorcode":"accessexception","stacktrace":"* line 60 of \/webservice\/pluginfile.php: webservice_access_exception thrown\n","debuginfo":"Web service file downloading must be enabled in external service settings\nError code: accessexception","reproductionlink":"https:\/\/www.inrebusdl.it\/cim\/"}
