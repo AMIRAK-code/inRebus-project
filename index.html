@@ -2795,8 +2795,15 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .byl-header {
@@ -3322,6 +3329,9 @@
                               <div style="width:100%;height:4px;background:#334155;border-radius:2px;overflow:hidden;position:relative;">
                                 <div style="width:${fillPercent}%;height:100%;background:var(--primary);border-radius:2px;"></div>
                               </div>
+                              <button class="btn-primary" style="margin-top:0.75rem;width:100%;padding:0.4rem;font-size:0.75rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--text-primary);box-shadow:none;" onclick="App.markGapLearned(${idx})" onmouseover="this.style.background='var(--primary)';this.style.color='#fff';" onmouseout="this.style.background='rgba(255,255,255,0.05)';this.style.color='var(--text-primary)';">
+                                  Mark as learned
+                              </button>
                             </div>
                           `;
       }).join('')}
@@ -3383,7 +3393,7 @@
             <!-- Because You Liked Section -->
             ${(() => {
           const bylData = Components.getContentBasedData();
-          const likedIds = Object.entries(STATE.likedCourses || {}).filter(([,v]) => v).map(([k]) => k);
+          const likedIds = Object.entries(STATE.likedCourses || {}).filter(([, v]) => v).map(([k]) => k);
           const hasEngagement = likedIds.length > 0 || (STATE.viewedCourses && Object.keys(STATE.viewedCourses).length > 0);
 
           return `
@@ -3393,14 +3403,14 @@
                         <div class="section-title-dot" style="background:#10b981;box-shadow:0 0 8px rgba(16,185,129,0.5);"></div>
                         Because You Enjoyed This
                     </div>
-                    ${ bylData && bylData.seedTitle ? `
+                    ${bylData && bylData.seedTitle ? `
                     <div class="byl-seed-pill">
                         <i data-lucide="heart" style="width:10px;height:10px;fill:#34d399;stroke:none;"></i>
                         ${bylData.seedTitle}
-                    </div>` : '' }
+                    </div>` : ''}
                 </div>
 
-                ${ hasEngagement && bylData && bylData.items.length > 0 ? `
+                ${hasEngagement && bylData && bylData.items.length > 0 ? `
                 <div class="grid-3" id="byl-grid">
                     ${bylData.items.map((item, i) => Components.ContentBasedCard(item, i)).join('')}
                 </div>` : `
@@ -3458,7 +3468,7 @@
             ...(course.customfields || []).map(f => f.value || '')
           ].join(' ').toLowerCase();
           // Extract meaningful n-grams (skip stop words)
-          const stop = new Set(['the','a','an','and','or','of','to','in','for','is','are','with','on','at','by','as','it','its']);
+          const stop = new Set(['the', 'a', 'an', 'and', 'or', 'of', 'to', 'in', 'for', 'is', 'are', 'with', 'on', 'at', 'by', 'as', 'it', 'its']);
           return text.split(/[\s,;:.!?"'()/\\]+/)
             .filter(w => w.length > 2 && !stop.has(w) && !/^\d+$/.test(w));
         };
@@ -3541,10 +3551,10 @@
         } else if (course.overviewfiles && course.overviewfiles.length > 0) {
           imgSrc = course.overviewfiles[0].fileurl;
           if (imgSrc && imgSrc.includes('/pluginfile.php/')) imgSrc = imgSrc.replace('/pluginfile.php/', '/webservice/pluginfile.php/');
-          if (imgSrc && !imgSrc.includes('token=')) imgSrc += (imgSrc.includes('?') ? '&' : '?') + 'token=62bc86a9e2339179f55f334a177a9113';
+          if (imgSrc && !imgSrc.includes('token=')) imgSrc += (imgSrc.includes('?') ? '&' : '?') + 'token=d6adef7e9ad499280336bc1dd12b4223';
         }
         const img = imgSrc || fallbacks[idx % fallbacks.length];
-        const courseUrl = `https://www.inrebusdl.it/cim/course/view.php?id=${course.id}`;
+        const courseUrl = `https://www.inrebusdl.it/vitanuova/admin/tool/directsso/login.php?auth=oauth2&id=1&wantspage=course&courseid=${course.id}`;
 
         // Reason chip: use matched keywords or generic
         const reasonText = matchedKeywords.length > 0
@@ -3573,11 +3583,11 @@
                     ${reasonText}
                 </div>
                 <div class="byl-footer">
-                    ${ upvotes > 0 ? `
+                    ${upvotes > 0 ? `
                     <div class="byl-upvotes">
                         <i data-lucide="thumbs-up" style="width:11px;height:11px;"></i>
                         ${upvotes} community upvotes
-                    </div>` : `<span class="byl-upvotes">${course.shortname || 'Online Course'}</span>` }
+                    </div>` : `<span class="byl-upvotes">${course.shortname || 'Online Course'}</span>`}
                     <div class="byl-cta">
                         Explore
                         <i data-lucide="arrow-right" style="width:11px;height:11px;"></i>
@@ -3671,11 +3681,11 @@
         if (course.courseimage) imgSrc = course.courseimage;
         else if (course.overviewfiles && course.overviewfiles.length > 0) {
           imgSrc = course.overviewfiles[0].fileurl;
-          if (imgSrc && !imgSrc.includes('token=')) imgSrc += (imgSrc.includes('?') ? '&' : '?') + 'token=62bc86a9e2339179f55f334a177a9113';
+          if (imgSrc && !imgSrc.includes('token=')) imgSrc += (imgSrc.includes('?') ? '&' : '?') + 'token=d6adef7e9ad499280336bc1dd12b4223';
           if (imgSrc && imgSrc.includes('/pluginfile.php/')) imgSrc = imgSrc.replace('/pluginfile.php/', '/webservice/pluginfile.php/');
         }
         const img = imgSrc || fallbacks[idx % fallbacks.length];
-        const courseUrl = `https://www.inrebusdl.it/cim/course/view.php?id=${course.id}`;
+        const courseUrl = `https://www.inrebusdl.it/vitanuova/admin/tool/directsso/login.php?auth=oauth2&id=1&wantspage=course&courseid=${course.id}`;
         return `
         <div class="similar-content-card" id="sim-card-${course.id}" onclick="window.open('${courseUrl}', '_blank')">
             <div style="position:relative;">
@@ -3726,7 +3736,7 @@
           }
           if (!moodleImg.includes('token=')) {
             const sep = moodleImg.includes('?') ? '&' : '?';
-            const token = '62bc86a9e2339179f55f334a177a9113';
+            const token = 'd6adef7e9ad499280336bc1dd12b4223';
             moodleImg += `${sep}token=${token}`;
           }
         }
@@ -3742,8 +3752,7 @@
         const CIM_DEFAULT_IMG = fallbacks[idx % fallbacks.length];
         const img = moodleImg || CIM_DEFAULT_IMG;
 
-        const MOODLE_BASE_URL = 'https://www.inrebusdl.it/cim';
-        const courseUrl = `${MOODLE_BASE_URL}/course/view.php?id=${course.id}`;
+        const courseUrl = `https://www.inrebusdl.it/vitanuova/admin/tool/directsso/login.php?auth=oauth2&id=1&wantspage=course&courseid=${course.id}`;
 
         return `
         <div class="rec-card" id="rec-card-${course.id}" style="position:relative;overflow:hidden;cursor:pointer;" onclick="
@@ -3759,7 +3768,12 @@
             </div>
             <div class="rec-card-body">
                 <div class="rec-card-title">${course.fullname}</div>
-                <div class="rec-card-skill">${course.shortname || 'Online Course'}</div>
+                ${course.competencies && course.competencies.length > 0 
+                    ? `<div class="rec-card-skill" style="color:var(--primary);font-size:0.75rem;margin-top:0.25rem;">
+                         <i data-lucide="award" style="width:10px;height:10px;display:inline-block;vertical-align:middle;margin-right:2px;"></i>
+                         ${course.competencies[0].shortname}
+                       </div>` 
+                    : `<div class="rec-card-skill">${course.shortname || 'Online Course'}</div>`}
                 <div class="rec-card-footer">
                     <div class="rec-card-cta">
                         View Course
@@ -3844,7 +3858,127 @@
                 <button class="btn-primary" onclick="App.resetSession()">Reset Session</button>
             </div>
         </div>
-    `
+    `,
+
+      SkillsView: () => `
+        <div class="max-content" style="max-width:900px;margin:0 auto;animation:fadeIn 0.5s ease-out;">
+            <div class="hero-card">
+                <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+                    <div style="width:48px;height:48px;border-radius:12px;background:rgba(34,197,94,0.1);display:flex;align-items:center;justify-content:center;">
+                        <i data-lucide="award" style="width:24px;height:24px;color:#22c55e;"></i>
+                    </div>
+                    <div>
+                        <h2 style="margin:0;font-family:'Space Grotesk',sans-serif;font-weight:700;">My Skills Portfolio</h2>
+                        <div style="font-size:0.875rem;color:var(--text-muted);">You have successfully validated ${STATE.skills.length} core capabilities.</div>
+                    </div>
+                </div>
+                
+                <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:1rem;margin-top:2rem;">
+                    ${STATE.skills.map(s => `
+                        <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);padding:1rem;border-radius:12px;display:flex;align-items:center;gap:1rem;transition:transform 0.2s;cursor:default;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                            <div style="width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;color:var(--text-primary);">
+                                <i data-lucide="check-circle" style="width:18px;height:18px;color:#22c55e;"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight:600;font-size:0.95rem;color:var(--text-primary);">${s}</div>
+                                <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.15rem;">Validated Proficiency</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                    ${STATE.skills.length === 0 ? '<div style="color:var(--text-muted);">No skills validated yet. Upload your CV to get started!</div>' : ''}
+                </div>
+            </div>
+        </div>
+      `,
+
+      CareerView: () => `
+        <div class="max-content" style="max-width:900px;margin:0 auto;animation:fadeIn 0.5s ease-out;">
+            <div class="hero-card" style="padding-top:2.5rem;padding-bottom:2.5rem;">
+                <h2 style="margin:0 0 0.5rem 0;font-family:'Space Grotesk',sans-serif;">Path to ${STATE.targetRole || 'Your Goal'}</h2>
+                <p style="color:var(--text-muted);margin-bottom:3rem;">Your personalized career roadmap</p>
+                
+                <div style="position:relative;padding-left:2.5rem;border-left:2px dashed rgba(255,255,255,0.1);margin-left:1rem;">
+                    
+                    <div style="position:relative;margin-bottom:3.5rem;">
+                        <div style="position:absolute;left:-3.1rem;top:0;width:20px;height:20px;border-radius:50%;background:#22c55e;border:4px solid var(--background);"></div>
+                        <div style="font-weight:700;font-size:1.1rem;color:#86efac;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;"><i data-lucide="flag" style="width:16px;height:16px;"></i> Current Foundation</div>
+                        <p style="color:var(--text-muted);font-size:0.875rem;line-height:1.6;">You have ${STATE.skills.length} core skills validated. You are on the right track!</p>
+                    </div>
+
+                    ${STATE.gaps.map((g, i) => `
+                    <div style="position:relative;margin-bottom:3.5rem;">
+                        <div style="position:absolute;left:-3.1rem;top:0;width:20px;height:20px;border-radius:50%;background:var(--primary);border:4px solid var(--background);box-shadow:0 0 10px rgba(249,115,22,0.4);"></div>
+                        <div style="font-weight:700;font-size:1.1rem;color:var(--text-primary);margin-bottom:0.75rem;">Master: ${g}</div>
+                        <div style="background:rgba(255,255,255,0.02);padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.05);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+                            <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.875rem;color:var(--text-muted);">
+                                <i data-lucide="book-open" style="width:14px;height:14px;color:var(--primary);"></i>
+                                Recommended action: Complete targeted learning modules
+                            </div>
+                            <button class="btn-primary" style="padding:0.4rem 1.25rem;font-size:0.8rem;" onclick="App.navigateTo('dashboard')">Find Courses</button>
+                        </div>
+                    </div>
+                    `).join('')}
+
+                    <div style="position:relative;">
+                        <div style="position:absolute;left:-3.2rem;top:-0.2rem;width:24px;height:24px;border-radius:50%;background:#8b5cf6;border:4px solid var(--background);box-shadow:0 0 12px #8b5cf6;"></div>
+                        <div style="font-weight:700;font-size:1.25rem;color:#a78bfa;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.5rem;"><i data-lucide="trophy" style="width:18px;height:18px;"></i> ${STATE.targetRole || 'Target Role'}</div>
+                        <p style="color:var(--text-muted);font-size:0.875rem;">Ultimate career goal achieved. You're ready to apply!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      `,
+
+      ProgressView: () => {
+        const strokeDash = 2 * Math.PI * 40;
+        const strokeOffset = strokeDash * (1 - (STATE.matchPercentage || 0) / 100);
+        return `
+        <div class="max-content" style="max-width:900px;margin:0 auto;animation:fadeIn 0.5s ease-out;">
+            <div class="hero-card" style="display:flex;align-items:center;gap:4rem;padding:3rem;flex-wrap:wrap;">
+                
+                <div class="circular-progress" style="width:220px;height:220px;flex-shrink:0;position:relative;margin:0 auto;">
+                    <svg viewBox="0 0 100 100" style="width:100%;height:100%;">
+                        <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="none"/>
+                        <circle cx="50" cy="50" r="40" stroke="var(--primary)" stroke-width="8" fill="none" 
+                            stroke-dasharray="${strokeDash}" 
+                            stroke-dashoffset="${strokeOffset}" 
+                            stroke-linecap="round" style="transition:stroke-dashoffset 1.5s ease-out;transform-origin:50% 50%;transform:rotate(-90deg);"/>
+                    </svg>
+                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+                        <div style="font-size:3rem;font-weight:700;font-family:'Space Grotesk',sans-serif;color:var(--text-primary);line-height:1;">${STATE.matchPercentage}%</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:0.25rem;font-weight:600;">Readiness</div>
+                    </div>
+                </div>
+
+                <div style="flex:1;min-width:300px;">
+                    <h2 style="margin:0 0 0.5rem 0;font-family:'Space Grotesk',sans-serif;">Learning Progress</h2>
+                    <p style="color:var(--text-muted);margin-bottom:2.5rem;line-height:1.6;font-size:0.95rem;">You are steadily approaching your target role as a <strong style="color:var(--text-primary);">${STATE.targetRole}</strong>. You currently have ${STATE.gaps.length} critical areas remaining to master.</p>
+                    
+                    <div style="display:flex;flex-direction:column;gap:1.5rem;">
+                        <div>
+                            <div style="display:flex;justify-content:space-between;font-size:0.875rem;margin-bottom:0.75rem;">
+                                <span style="display:flex;align-items:center;gap:0.5rem;"><i data-lucide="check-circle" style="width:14px;height:14px;color:#22c55e;"></i> Skills Acquired</span>
+                                <span style="font-weight:700;color:#22c55e;">${STATE.skills.length}</span>
+                            </div>
+                            <div style="width:100%;height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;">
+                                <div style="width:${Math.min(100, STATE.skills.length * 10)}%;height:100%;background:#22c55e;border-radius:4px;transition:width 1s ease;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display:flex;justify-content:space-between;font-size:0.875rem;margin-bottom:0.75rem;">
+                                <span style="display:flex;align-items:center;gap:0.5rem;"><i data-lucide="target" style="width:14px;height:14px;color:var(--primary);"></i> Skill Gaps</span>
+                                <span style="font-weight:700;color:var(--primary);">${STATE.gaps.length}</span>
+                            </div>
+                            <div style="width:100%;height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;">
+                                <div style="width:${Math.min(100, STATE.gaps.length * 15)}%;height:100%;background:var(--primary);border-radius:4px;transition:width 1s ease;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `;
+      }
     };
 
     /* ============================================================
@@ -4164,20 +4298,59 @@
         if (STATE.moodleCourses && STATE.moodleCourses.length > 0) return; // Prevent re-fetching if already loaded
 
         try {
-          const moodleApiUrl = "https://www.inrebusdl.it/cim/webservice/rest/server.php?wstoken=62bc86a9e2339179f55f334a177a9113&wsfunction=core_course_get_courses&moodlewsrestformat=json";
+          const moodleApiUrl = "https://www.inrebusdl.it/vitanuova/webservice/rest/server.php?wstoken=d6adef7e9ad499280336bc1dd12b4223&wsfunction=core_course_get_courses&moodlewsrestformat=json";
           const response = await fetch(moodleApiUrl);
 
           if (!response.ok) throw new Error("Failed to fetch Moodle courses");
 
           let courses = await response.json();
           if (Array.isArray(courses)) {
-            // Filter out the Site Home (id 1) and keep more courses to populate both sections (e.g. up to 10)
             courses = courses.filter(c => c.id !== 1);
-            STATE.moodleCourses = courses.slice(0, 10);
+            courses = courses.slice(0, 10);
+
+            // Fetch competencies for each course
+            await Promise.all(courses.map(async (c) => {
+               try {
+                   const compResp = await fetch(`https://www.inrebusdl.it/vitanuova/webservice/rest/server.php?wstoken=d6adef7e9ad499280336bc1dd12b4223&wsfunction=core_competency_list_course_competencies&moodlewsrestformat=json&id=${c.id}`);
+                   if (compResp.ok) {
+                       const compData = await compResp.json();
+                       c.competencies = Array.isArray(compData) ? compData.map(d => d.competency) : [];
+                   } else {
+                       c.competencies = [];
+                   }
+               } catch(e) {
+                   console.warn("Failed to fetch comps for course", c.id, e);
+                   c.competencies = [];
+               }
+            }));
+
+            // Score courses based on roadmap & skills
+            const keywords = [...(STATE.gaps || []), ...(STATE.skills || []), STATE.targetRole || ''].map(k => k.toLowerCase());
+            courses.forEach(c => {
+                let score = 0;
+                let textToMatch = c.fullname + ' ' + (c.summary || '');
+                if (c.competencies && c.competencies.length > 0) {
+                     textToMatch += ' ' + c.competencies.map(comp => comp.shortname + ' ' + comp.description).join(' ');
+                }
+                textToMatch = textToMatch.toLowerCase();
+                
+                keywords.forEach(kw => {
+                    if (kw && textToMatch.includes(kw)) {
+                        score += 5;
+                    }
+                });
+                c.roadmapScore = score;
+            });
+
+            // Sort by descending score
+            courses.sort((a,b) => b.roadmapScore - a.roadmapScore);
+
+            STATE.moodleCourses = courses;
 
             // Re-render dashboard if it's the active view to show newly fetched courses
             if (STATE.activeTab === 'dashboard' && document.getElementById('rec-grid')) {
               this.showView('dashboard');
+              if (window.lucide) lucide.createIcons();
             }
           }
         } catch (error) {
@@ -4254,19 +4427,11 @@
         const bylSection = document.getElementById('byl-section');
         if (bylSection && STATE.activeTab === 'dashboard') {
           const bylData = Components.getContentBasedData();
-          const likedIds = Object.entries(STATE.likedCourses || {}).filter(([,v]) => v).map(([k]) => k);
-          const hasEngagement = likedIds.length > 0;
+          const likedIds = Object.entries(STATE.likedCourses || {}).filter(([, v]) => v).map(([k]) => k);
+          const hasEngagement = likedIds.length > 0 || (STATE.viewedCourses && Object.keys(STATE.viewedCourses).length > 0);
 
-          if (bylData && bylData.items.length > 0 && hasEngagement) {
-            const seedPill = bylSection.querySelector('.byl-seed-pill');
-            if (seedPill) seedPill.textContent = bylData.seedTitle;
-            const grid = document.getElementById('byl-grid');
-            if (grid) {
-              grid.innerHTML = bylData.items.map((item, i) => Components.ContentBasedCard(item, i)).join('');
-              lucide.createIcons();
-            } else {
-              // Grid doesn't exist yet (was showing empty state) — full re-render of section
-              bylSection.innerHTML = `
+          if (hasEngagement && bylData && bylData.items.length > 0) {
+            bylSection.innerHTML = `
                 <div class="byl-header">
                   <div class="section-title">
                     <div class="section-title-dot" style="background:#10b981;box-shadow:0 0 8px rgba(16,185,129,0.5);"></div>
@@ -4280,10 +4445,23 @@
                 <div class="grid-3" id="byl-grid">
                   ${bylData.items.map((item, i) => Components.ContentBasedCard(item, i)).join('')}
                 </div>
-              `;
-              lucide.createIcons();
-            }
+            `;
+          } else {
+            bylSection.innerHTML = `
+                <div class="byl-header">
+                  <div class="section-title">
+                    <div class="section-title-dot" style="background:#10b981;box-shadow:0 0 8px rgba(16,185,129,0.5);"></div>
+                    Because You Enjoyed This
+                  </div>
+                </div>
+                <div class="byl-empty">
+                    <i data-lucide="heart" style="width:24px;height:24px;color:var(--text-muted);margin-bottom:0.5rem;display:block;margin-left:auto;margin-right:auto;"></i>
+                    <div style="text-align:center;font-weight:600;font-size:0.875rem;margin-bottom:0.25rem;">Heart a course above to get personalised picks</div>
+                    <div class="byl-hint" style="text-align:center;">We'll analyse the content and find courses with similar topics, difficulty, and skills.</div>
+                </div>
+            `;
           }
+          if (window.lucide) lucide.createIcons();
         }
       },
 
@@ -4377,6 +4555,27 @@
             // Errors are passed via STATE or arguments, here we'll assume they are handled by a dedicated method
             break;
 
+          case 'skills':
+            headerTitle.textContent = 'My Skills';
+            headerAction.innerHTML = Components.HeaderAction();
+            container.innerHTML = Components.SkillsView();
+            lucide.createIcons();
+            break;
+
+          case 'career':
+            headerTitle.textContent = 'Career Path';
+            headerAction.innerHTML = Components.HeaderAction();
+            container.innerHTML = Components.CareerView();
+            lucide.createIcons();
+            break;
+
+          case 'progress':
+            headerTitle.textContent = 'Progress';
+            headerAction.innerHTML = Components.HeaderAction();
+            container.innerHTML = Components.ProgressView();
+            lucide.createIcons();
+            break;
+
           default:
             // Placeholder for other tabs
             headerTitle.textContent = viewName.charAt(0).toUpperCase() + viewName.slice(1);
@@ -4384,6 +4583,18 @@
             container.innerHTML = this._comingSoon(viewName);
             lucide.createIcons();
             break;
+        }
+      },
+
+      markGapLearned(idx) {
+        const gap = STATE.gaps[idx];
+        if (gap) {
+          STATE.gaps.splice(idx, 1);
+          if (!STATE.skills.includes(gap)) STATE.skills.push(gap);
+          STATE.matchPercentage = Math.min(100, STATE.matchPercentage + 15);
+          
+          // Re-render dashboard properly
+          this.showView('dashboard');
         }
       },
 
